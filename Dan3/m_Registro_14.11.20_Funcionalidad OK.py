@@ -4,9 +4,6 @@ import sqlite3
 
 #Importar ventana de Login creada en QT Designes  y exportada a python
 from PyQt5 import QtWidgets
-
-from PyQt5.QtWidgets import QDesktopWidget
-
 from PyQt5.QtWidgets import QMessageBox
 from f_Registro import Ui_MainWindow
 class Registro_GUI(QtWidgets.QMainWindow):
@@ -97,7 +94,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
     if self.fn_Casos() == "Actualizar":
       #Leer contraseña anterior
       old_psw = self.ui.D_psw_old.text()
-      new_User = self.ui.D_usuario_2.text()
 
       #Verificar si el usuario existe en la Base de Datos
       if self.fn_Usuario_Existente(User) == "No":
@@ -106,7 +102,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
       
       #Acciones si existe o no alguna coincidencia de Usuario
       if self.fn_Usuario_Existente(User) == "Si":
-        self.fn_Actualizar(User, new_User, old_psw, Password, Confirmacion, Nivel)
+        self.fn_Actualizar(User, old_psw, Password, Confirmacion, Nivel)
 
     # ----------------- Caso ELIMINAR usuario ----------------- #
     if self.fn_Casos() == "Eliminar":
@@ -758,154 +754,28 @@ class Registro_GUI(QtWidgets.QMainWindow):
     miConexion.commit()
     self.msg_info("Registro Exitoso...", f"El usuario {User} ha sido añadido a la Base de Datos")
     miConexion.close
-    
-    sys.exit()
 
   #Función para actualizar usuario
-  def fn_Actualizar(self, User, new_User, old_psw, Password, Confirmacion, Nivel):
+  def fn_Actualizar(self, User, old_psw, Password, Confirmacion, Nivel):
     #Abrir Base de Datos con SQLite3
     miConexion = sqlite3.connect("Usuarios")
     miCursor = miConexion.cursor()
 
-    if self.fn_checkbox_casos() == 1:
-      miCursor.execute("UPDATE USUARIOS SET Nivel = ? WHERE Usuario = ?", (Nivel, User))
-      miConexion.commit()
-      miConexion.close()
-      self.msg_info("Actualización de Datos", "El Nivel ha sido actualizado")
-      sys.exit()
+    miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?", (User, old_psw))
+    if miCursor.fetchall():
+      #Verificar constraseñas iguales
+      if Password == Confirmacion:
+        miCursor.execute("UPDATE USUARIOS SET PSW = ?, Nivel = ? WHERE Usuario = ?", [Password, Nivel, User])
+        self.msg_info("Contraseña actualizada", "La contraseña ha sido actualizada")
 
-    if self.fn_checkbox_casos() == 2:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                      (User, old_psw))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if Password == Confirmacion:
-          miCursor.execute("UPDATE USUARIOS SET PSW = ?, Nivel = ? WHERE Usuario = ?",
-                          (Password, Nivel, User))
-          miConexion.commit()
-          miConexion.close()
-          self.msg_info("Actualización de Datos", "Los datos de Contraseña y Nivel " 
-                      + "han sido actualizados")
-          sys.exit()
-
-        else:
-          self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
-                      + "coinciden" + '\n' + "Favor de volver a intentar")
+        miConexion.commit()
+        miConexion.close()
       else:
-        self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
-                      + "con el valor registrado" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 3:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ?", (User))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if User != new_User:
-          miCursor.execute("UPDATE USUARIOS SET Usuario = ?, Nivel = ? WHERE Usuario = ?",
-                          (new_User, Nivel, User))
-          miConexion.commit()
-          miConexion.close()
-          self.msg_info("Actualización de Datos", "Los datos de Usuario y Nivel "
-                        + "han sido actualizados")
-          sys.exit()
-        else:
-          self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
-                        + "anterior" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Usuario inválido", f"El Usuario {User} no se encuentra en la "
-                      + "Base de Datos" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 4:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                      (User, old_psw))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if Password == Confirmacion:
-          miCursor.execute("UPDATE USUARIOS SET PSW = ? WHERE Usuario = ?",
-                          (Password, User))
-          miConexion.commit()
-          miConexion.close()
-          self.msg_info("Actualización de Datos", "El dato de Contraseña " 
-                      + "ha sido actualizado")
-          sys.exit()
-        else:
-          self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
-                      + "coinciden" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
-                      + "con el valor registrado" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 5:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ?", (User))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if User != new_User:
-          miCursor.execute("UPDATE USUARIOS SET Usuario = ? WHERE Usuario = ?",
-                          (new_User, User))
-          miConexion.commit()
-          miConexion.close()
-          self.msg_info("Actualización de Datos", "El dato de Usuario "
-                        + "ha sido actualizados")
-          sys.exit()
-        else:
-          self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
-                        + "anterior" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Usuario inválido", f"El Usuario {User} no se encuentra en la "
-                      + "Base de Datos" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 6:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                      (User, old_psw))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if User != new_User:
-          if Password == Confirmacion:
-            miCursor.execute('''UPDATE USUARIOS SET Usuario = ?, PSW = ?, Nivel = ?
-                            WHERE Usuario = ?''', (new_User, Password, Nivel, User))
-            miConexion.commit()
-            miConexion.close()
-            self.msg_info("Actualización de Datos", "Los datos de Usuario, Contraseña "
-                          + "y Nivel han sido actualizados")
-            sys.exit()
-          else:
-            self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
-                      + "coinciden" + '\n' + "Favor de volver a intentar")
-        else:
-          self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
-                        + "anterior" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
-                      + "con el valor registrado" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 7:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                      (User, old_psw))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if User != new_User:
-          if Password == Confirmacion:
-            miCursor.execute("UPDATE USUARIOS SET Usuario = ?, PSW = ? WHERE Usuario = ?",
-                            (new_User, Password, User))
-            miConexion.commit()
-            miConexion.close()
-            self.msg_info("Actualización de Datos", "Los datos de Usuario y Contraseña "
-                          + "han sido actualizados")
-            sys.exit()
-          else:
-            self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
-                      + "coinciden" + '\n' + "Favor de volver a intentar")
-        else:
-          self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
-                        + "anterior" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
-                      + "con el valor registrado" + '\n' + "Favor de volver a intentar")
+        self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
+                    + "coinciden" + '\n' + "Favor de volver a intentar")
+    else:
+      self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
+                    + "con el valor registrado" + '\n' + "Favor de volver a intentar")
   
   #Función para eliminar usuario
   def fn_Eliminar(self, User):
@@ -918,7 +788,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
     miConexion.commit()
     miConexion.close()
     self.msg_info("Usuario Eliminado...", f"El usuario {User} se elimino exitosamente")
-    sys.exit()
+
   # -------------------- Funciones para Mensajes -------------------- #
   #Función para mensajes de información
   def msg_info(self, titulo, mensaje):
@@ -944,9 +814,10 @@ class Registro_GUI(QtWidgets.QMainWindow):
       Respuesta = ""
       if msgbox.clickedButton() == b_Si:
         Respuesta = "Eliminar"
-
+        #self.fn_Resp(Respuesta)
       elif msgbox.clickedButton() == b_No:
         Respuesta  = ""
+        #self.fn_Resp(Respuesta)
       return Respuesta
 
 #Función para iniciar ventana de Login  

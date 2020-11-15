@@ -362,7 +362,7 @@
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 2.2.1&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 2.2.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -838,12 +838,7 @@
   <tabstop>b_nuevo</tabstop>
   <tabstop>b_actualizar</tabstop>
   <tabstop>b_eliminar</tabstop>
-  <tabstop>ch_Usuario</tabstop>
-  <tabstop>ch_psw</tabstop>
-  <tabstop>ch_Nivel</tabstop>
   <tabstop>D_usuario</tabstop>
-  <tabstop>D_usuario_2</tabstop>
-  <tabstop>D_psw_old</tabstop>
   <tabstop>D_psw</tabstop>
   <tabstop>D_psw_2</tabstop>
   <tabstop>b_emp</tabstop>

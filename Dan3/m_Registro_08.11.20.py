@@ -4,9 +4,6 @@ import sqlite3
 
 #Importar ventana de Login creada en QT Designes  y exportada a python
 from PyQt5 import QtWidgets
-
-from PyQt5.QtWidgets import QDesktopWidget
-
 from PyQt5.QtWidgets import QMessageBox
 from f_Registro import Ui_MainWindow
 class Registro_GUI(QtWidgets.QMainWindow):
@@ -26,8 +23,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
     self.ui.b_eliminar.setChecked(False)
     self.ui.fr_Actualizacion.setVisible(False)
     self.ui.fr_Nivel.setVisible(True)
-    #self.ui.D
-    #self.ui.D_usuario.setFocus()
+    #self.ui.ch_Usuario.setChecked(True)
     
     #Función para activar botones al inicio
     self.fn_botones_acciones()
@@ -97,7 +93,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
     if self.fn_Casos() == "Actualizar":
       #Leer contraseña anterior
       old_psw = self.ui.D_psw_old.text()
-      new_User = self.ui.D_usuario_2.text()
 
       #Verificar si el usuario existe en la Base de Datos
       if self.fn_Usuario_Existente(User) == "No":
@@ -106,7 +101,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
       
       #Acciones si existe o no alguna coincidencia de Usuario
       if self.fn_Usuario_Existente(User) == "Si":
-        self.fn_Actualizar(User, new_User, old_psw, Password, Confirmacion, Nivel)
+        self.fn_Actualizar(User, old_psw, Password, Confirmacion, Nivel)
 
     # ----------------- Caso ELIMINAR usuario ----------------- #
     if self.fn_Casos() == "Eliminar":
@@ -153,14 +148,8 @@ class Registro_GUI(QtWidgets.QMainWindow):
     elif self.fn_Casos() == "Actualizar":
       if self.fn_checkbox_casos() == 0:
         self.ui.b_Registrar.setEnabled(False)
-      
-      if self.fn_checkbox_casos() == 1:
-        if not self.ui.D_usuario.text():
-          self.ui.b_Registrar.setEnabled(False)
-        else:
-          self.ui.b_Registrar.setEnabled(True)
 
-      if self.fn_checkbox_casos() == 3 or self.fn_checkbox_casos() == 5:
+      if self.fn_checkbox_casos() == 1:
         if (not self.ui.D_usuario.text()
             and not self.ui.D_usuario_2.text()):
           self.ui.b_Registrar.setEnabled(False)
@@ -170,7 +159,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
         else:
           self.ui.b_Registrar.setEnabled(True)
 
-      if self.fn_checkbox_casos() == 2 or self.fn_checkbox_casos() == 4:
+      if self.fn_checkbox_casos() == 2:
         if (not self.ui.D_usuario.text()
             and not self.ui.D_psw.text()
             and not self.ui.D_psw_2.text()):
@@ -182,7 +171,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
         else:
           self.ui.b_Registrar.setEnabled(True)
 
-      if self.fn_checkbox_casos() == 6 or self.fn_checkbox_casos() == 7:
+      if self.fn_checkbox_casos() == 3:
         if (not self.ui.D_usuario.text()
             and not self.ui.D_usuario_2.text()
             and not self.ui.D_psw_old.text()
@@ -203,7 +192,18 @@ class Registro_GUI(QtWidgets.QMainWindow):
           self.ui.b_Registrar.setEnabled(False)
         else:
           self.ui.b_Registrar.setEnabled(True)
-
+      #if (not self.ui.D_usuario.text()
+      #  and not self.ui.D_psw_old.text()
+      #  and not self.ui.D_psw.text()
+      #  and not self.ui.D_psw_2.text()):
+      #  self.ui.b_Registrar.setEnabled(False)
+      #elif (not self.ui.D_usuario.text()
+      #  or not self.ui.D_psw_old.text()
+      #  or not self.ui.D_psw.text()
+      #  or not self.ui.D_psw_2.text()):
+      #  self.ui.b_Registrar.setEnabled(False)
+      #else:
+      #  self.ui.b_Registrar.setEnabled(True)
     elif self.fn_Casos() == "Eliminar":
       #Desmarcar checkboxes
       self.ui.ch_Usuario.setChecked(False)
@@ -224,7 +224,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
       self.ui.L7.setVisible(False)
   
   #Función para acción de optionbutton Nuevo / Actualizar / Eliminar
-  #Mostrar u Ocultar botones segun selección
   def fn_botones_acciones(self):
     if self.ui.b_nuevo.isChecked():
       #Para seleccionar solo una opción
@@ -242,7 +241,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
       #Mover botones
       self.ui.L3.setGeometry(10,110,86,20)
       self.ui.D_usuario.setGeometry(100,110,150,20)
-      self.ui.D_usuario.setFocus()
 
       #Ocultar botón de usuario nuevo
       self.ui.L8.setEnabled(False)
@@ -280,6 +278,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
       self.ui.fr_Nivel.setGeometry(9,210,241,40)
 
       #Cambiar texto del botón Registrar
+
       self.ui.b_Registrar.setText("Registrar")
 
       #Función de comprobación
@@ -327,9 +326,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
       self.ui.ch_psw.stateChanged.connect(self.fn_checkbox)
       self.ui.ch_Nivel.stateChanged.connect(self.fn_checkbox_Nivel)
 
-      #Cambiar texto del botón Registrar
-      self.ui.b_Registrar.setText("Actualizar")
-
       #Función de comprobación
       self.fn_Comprobacion()
 
@@ -340,16 +336,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
 
       #Ocultar frame de botones actualización
       self.ui.fr_Actualizacion.setVisible(False)
-
-      #Mostrar botón usuario
-      self.ui.L3.setEnabled(True)
-      self.ui.L3.setVisible(True)
-      self.ui.D_usuario.setEnabled(True)
-      self.ui.D_usuario.setVisible(True)
-      #Mover botones
-      self.ui.L3.setGeometry(10,110,86,20)
-      self.ui.D_usuario.setGeometry(100,110,150,20)
-      self.ui.D_usuario.setFocus()
 
       #Ocultar botón de Contraseña antigua
       self.ui.L7.setEnabled(False)
@@ -362,12 +348,18 @@ class Registro_GUI(QtWidgets.QMainWindow):
       self.ui.L4.setVisible(False)
       self.ui.D_psw.setEnabled(False)
       self.ui.D_psw.setVisible(False)
+      #Mover botones
+      self.ui.L4.setGeometry(10,140,80,20)
+      self.ui.D_psw.setGeometry(100,140,150,20)
 
       #Ocultar botón de Confirmar
       self.ui.L5.setEnabled(False)
       self.ui.L5.setVisible(False)
       self.ui.D_psw_2.setEnabled(False)
       self.ui.D_psw_2.setVisible(False)
+      #Mover botones
+      self.ui.L5.setGeometry(10,170,80,20)
+      self.ui.D_psw_2.setGeometry(100,170,150,20)
 
       #Ocultar Frame de botones Empleado / Administrador
       self.ui.fr_Nivel.setVisible(False)
@@ -389,6 +381,27 @@ class Registro_GUI(QtWidgets.QMainWindow):
 
   #Funcion casos de Checkboxes
   def fn_checkbox_casos(self):
+    if not self.ui.ch_Usuario.isChecked() and not self.ui.ch_psw.isChecked():
+      caso = 0
+      print (caso)
+    elif self.ui.ch_Usuario.isChecked() and not self.ui.ch_psw.isChecked():
+      caso = 1
+      print (caso)
+    elif not self.ui.ch_Usuario.isChecked() and self.ui.ch_psw.isChecked():
+      caso = 2
+      print (caso)
+    elif self.ui.ch_Usuario.isChecked() and self.ui.ch_psw.isChecked():
+      caso = 3
+      print (caso)
+    elif not self.ui.ch_Usuario.isChecked() and not self.ui.ch_psw.isChecked():
+      caso = 4
+      print (caso)
+    ####elif (self.ui.ch_Usuario.isChecked()
+    ####     and self.ui.ch_psw.isChecked()
+    ####     and self.ui.ch_Nivel.isChecked()):
+    ####  caso = 5
+    ####  print (caso)
+    ''' COMPARAR LOS CASOS PARA UNIFORMAIZARLOS EN LA FUNCION fn_Comprobacion
     if (not self.ui.ch_Nivel.isChecked()
         and not self.ui.ch_Usuario.isChecked()
         and not self.ui.ch_psw.isChecked()):
@@ -429,77 +442,36 @@ class Registro_GUI(QtWidgets.QMainWindow):
         and self.ui.ch_Usuario.isChecked()):
       caso = 7
 
-    return caso
+    return caso '''
 
   #Función para acción de checkbox Usuario / Contraseña / Nivel
   def fn_checkbox(self):
     if self.fn_checkbox_casos() == 0:
-      if self.ui.b_actualizar.isChecked():
-        #Ocultar todos los textos
-        self.ui.L3.setEnabled(False)
-        self.ui.L3.setVisible(False)
-        self.ui.D_usuario.setEnabled(False)
-        self.ui.D_usuario.setVisible(False)
+      #Ocultar todos los textos
+      self.ui.L3.setEnabled(False)
+      self.ui.L3.setVisible(False)
+      self.ui.D_usuario.setEnabled(False)
+      self.ui.D_usuario.setVisible(False)
 
-        self.ui.L8.setEnabled(False)
-        self.ui.L8.setVisible(False)
-        self.ui.D_usuario_2.setEnabled(False)
-        self.ui.D_usuario_2.setVisible(False)
+      self.ui.L8.setEnabled(False)
+      self.ui.L8.setVisible(False)
+      self.ui.D_usuario_2.setEnabled(False)
+      self.ui.D_usuario_2.setVisible(False)
       
-        self.ui.L7.setEnabled(False)
-        self.ui.L7.setVisible(False)
-        self.ui.D_psw_old.setEnabled(False)
-        self.ui.D_psw_old.setVisible(False)
+      self.ui.L7.setEnabled(False)
+      self.ui.L7.setVisible(False)
+      self.ui.D_psw_old.setEnabled(False)
+      self.ui.D_psw_old.setVisible(False)
 
-        self.ui.L4.setEnabled(False)
-        self.ui.L4.setVisible(False)
-        self.ui.D_psw.setEnabled(False)
-        self.ui.D_psw.setVisible(False)
+      self.ui.L4.setEnabled(False)
+      self.ui.L4.setVisible(False)
+      self.ui.D_psw.setEnabled(False)
+      self.ui.D_psw.setVisible(False)
 
-        self.ui.L5.setEnabled(False)
-        self.ui.L5.setVisible(False)
-        self.ui.D_psw_2.setEnabled(False)
-        self.ui.D_psw_2.setVisible(False)
-
-        #Ocultar frame de Nivel
-        self.ui.fr_Nivel.setVisible(False)
-      elif self.ui.b_eliminar.isChecked():
-        #Mostrar botón usuario
-        self.ui.L3.setEnabled(True)
-        self.ui.L3.setVisible(True)
-        self.ui.D_usuario.setEnabled(True)
-        self.ui.D_usuario.setVisible(True)
-        #Mover botones
-        self.ui.L3.setGeometry(10,110,86,20)
-        self.ui.D_usuario.setGeometry(100,110,150,20)
-        self.ui.D_usuario.setFocus()
-
-        #Ocultar botón usuario nuevo
-        self.ui.L8.setEnabled(False)
-        self.ui.L8.setVisible(False)
-        self.ui.D_usuario_2.setEnabled(False)
-        self.ui.D_usuario_2.setVisible(False)
-      
-        #Ocultar botón contraseña anterior
-        self.ui.L7.setEnabled(False)
-        self.ui.L7.setVisible(False)
-        self.ui.D_psw_old.setEnabled(False)
-        self.ui.D_psw_old.setVisible(False)
-
-        #Ocultar botón contraseña
-        self.ui.L4.setEnabled(False)
-        self.ui.L4.setVisible(False)
-        self.ui.D_psw.setEnabled(False)
-        self.ui.D_psw.setVisible(False)
-
-        #Ocultar botón confimración de contraseña
-        self.ui.L5.setEnabled(False)
-        self.ui.L5.setVisible(False)
-        self.ui.D_psw_2.setEnabled(False)
-        self.ui.D_psw_2.setVisible(False)
-
-        #Ocultar frame de Nivel
-        self.ui.fr_Nivel.setVisible(False)
+      self.ui.L5.setEnabled(False)
+      self.ui.L5.setVisible(False)
+      self.ui.D_psw_2.setEnabled(False)
+      self.ui.D_psw_2.setVisible(False)
 
     if self.fn_checkbox_casos() == 1:
       #Mostrar botón usuario
@@ -510,44 +482,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
       #Mover botones
       self.ui.L3.setGeometry(10,110+40,86,20)
       self.ui.D_usuario.setGeometry(100,110+40,150,20)
-      self.ui.D_usuario.setFocus()
-          
-      #Ocultar botón usuario nuevo
-      self.ui.L8.setEnabled(False)
-      self.ui.L8.setVisible(False)
-      self.ui.D_usuario_2.setEnabled(False)
-      self.ui.D_usuario_2.setVisible(False)
-
-      #Ocultar botón contraseña anterior
-      self.ui.L7.setEnabled(False)
-      self.ui.L7.setVisible(False)
-      self.ui.D_psw_old.setEnabled(False)
-      self.ui.D_psw_old.setVisible(False)
-
-      #Ocultar botón contraseña
-      self.ui.L4.setEnabled(False)
-      self.ui.L4.setVisible(False)
-      self.ui.D_psw.setEnabled(False)
-      self.ui.D_psw.setVisible(False)
-
-      #Ocultar botón confimración de contraseña
-      self.ui.L5.setEnabled(False)
-      self.ui.L5.setVisible(False)
-      self.ui.D_psw_2.setEnabled(False)
-      self.ui.D_psw_2.setVisible(False)
-
-
-
-    if self.fn_checkbox_casos() == 5 or self.fn_checkbox_casos() == 3:
-      #Mostrar botón usuario
-      self.ui.L3.setEnabled(True)
-      self.ui.L3.setVisible(True)
-      self.ui.D_usuario.setEnabled(True)
-      self.ui.D_usuario.setVisible(True)
-      #Mover botones
-      self.ui.L3.setGeometry(10,110+40,86,20)
-      self.ui.D_usuario.setGeometry(100,110+40,150,20)
-      self.ui.D_usuario.setFocus()
           
       #Mostrar botón usuario nuevo
       self.ui.L8.setEnabled(True)
@@ -558,25 +492,25 @@ class Registro_GUI(QtWidgets.QMainWindow):
       self.ui.L8.setGeometry(10,180,86,20)
       self.ui.D_usuario_2.setGeometry(100,180,150,20)
 
-      #Ocultar botón contraseña anterior
+      #Mostrar botón contraseña anterior
       self.ui.L7.setEnabled(False)
       self.ui.L7.setVisible(False)
       self.ui.D_psw_old.setEnabled(False)
       self.ui.D_psw_old.setVisible(False)
 
-      #Ocultar botón contraseña
+      #Mostrar botón contraseña
       self.ui.L4.setEnabled(False)
       self.ui.L4.setVisible(False)
       self.ui.D_psw.setEnabled(False)
       self.ui.D_psw.setVisible(False)
 
-      #Ocultar botón confimración de contraseña
+      #Mostrar botón confimración de contraseña
       self.ui.L5.setEnabled(False)
       self.ui.L5.setVisible(False)
       self.ui.D_psw_2.setEnabled(False)
       self.ui.D_psw_2.setVisible(False)
     
-    if self.fn_checkbox_casos() == 4 or self.fn_checkbox_casos() == 2:
+    if self.fn_checkbox_casos() == 2:
       #Mostrar botón usuario
       self.ui.L3.setEnabled(True)
       self.ui.L3.setVisible(True)
@@ -585,7 +519,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
       #Mover botones
       self.ui.L3.setGeometry(10,110+40,86,20)
       self.ui.D_usuario.setGeometry(100,110+40,150,20)
-      self.ui.D_usuario.setFocus()
           
       #Ocultar botón usuario nuevo
       self.ui.L8.setEnabled(False)
@@ -623,7 +556,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
       self.ui.L5.setGeometry(10,200+40,86,20)
       self.ui.D_psw_2.setGeometry(100,200+40,150,20)
 
-    if self.fn_checkbox_casos() == 7 or self.fn_checkbox_casos() == 6:
+    if self.fn_checkbox_casos() == 3:
       #Mostrar botón usuario
       self.ui.L3.setEnabled(True)
       self.ui.L3.setVisible(True)
@@ -632,7 +565,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
       #Mover botones
       self.ui.L3.setGeometry(10,110+40,86,20)
       self.ui.D_usuario.setGeometry(100,110+40,150,20)
-      self.ui.D_usuario.setFocus()
           
       #Mostrar botón usuario nuevo
       self.ui.L8.setEnabled(True)
@@ -672,7 +604,47 @@ class Registro_GUI(QtWidgets.QMainWindow):
   
   #Función para acción de checkbox Nivel
   def fn_checkbox_Nivel(self):
-    if self.fn_checkbox_casos() == 0:
+    if (not self.ui.ch_Nivel.isChecked()
+        and not self.ui.ch_Usuario.isChecked()
+        and not self.ui.ch_psw.isChecked()):
+      caso = 0
+
+    elif (self.ui.ch_Nivel.isChecked()
+        and not self.ui.ch_Usuario.isChecked()
+        and not self.ui.ch_psw.isChecked()):
+      caso = 1
+
+    elif (self.ui.ch_Nivel.isChecked()
+        and self.ui.ch_psw.isChecked()
+        and not self.ui.ch_Usuario.isChecked()):
+      caso = 2
+
+    elif (self.ui.ch_Nivel.isChecked()
+        and not self.ui.ch_psw.isChecked()
+        and self.ui.ch_Usuario.isChecked()):
+      caso = 3
+
+    elif (not self.ui.ch_Nivel.isChecked()
+        and self.ui.ch_psw.isChecked()
+        and not self.ui.ch_Usuario.isChecked()):
+      caso = 4
+
+    elif (not self.ui.ch_Nivel.isChecked()
+        and not self.ui.ch_psw.isChecked()
+        and self.ui.ch_Usuario.isChecked()):
+      caso = 5
+
+    elif (self.ui.ch_Nivel.isChecked()
+        and self.ui.ch_psw.isChecked()
+        and self.ui.ch_Usuario.isChecked()):
+      caso = 6
+
+    elif (not self.ui.ch_Nivel.isChecked()
+        and self.ui.ch_psw.isChecked()
+        and self.ui.ch_Usuario.isChecked()):
+      caso = 7
+
+    if caso == 0:
       #Ocultar botón usuario
       self.ui.L3.setEnabled(False)
       self.ui.L3.setVisible(False)
@@ -682,7 +654,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
       #Ocultar frame de Nivel
       self.ui.fr_Nivel.setVisible(False)
 
-    if self.fn_checkbox_casos() == 1:
+    if caso == 1:
       #Mostrar botón usuario
       self.ui.L3.setEnabled(True)
       self.ui.L3.setVisible(True)
@@ -691,37 +663,32 @@ class Registro_GUI(QtWidgets.QMainWindow):
       #Mover botones
       self.ui.L3.setGeometry(10,110+40,86,20)
       self.ui.D_usuario.setGeometry(100,110+40,150,20)
-      self.ui.D_usuario.setFocus()
 
       #Mostrar frame de Nivel
       self.ui.fr_Nivel.setVisible(True)
       self.ui.fr_Nivel.setGeometry(9,300,241,40)
 
-    if self.fn_checkbox_casos() == 2:
+    if caso == 2 or caso == 3 or caso == 6:
+      #Ocultar botón usuario
+      self.ui.L3.setEnabled(True)
+      self.ui.L3.setVisible(True)
+      self.ui.D_usuario.setEnabled(True)
+      self.ui.D_usuario.setVisible(True)
+
       #Mostrar frame de Nivel
       self.ui.fr_Nivel.setVisible(True)
       self.ui.fr_Nivel.setGeometry(9,300,241,40)
-      self.ui.D_usuario.setFocus()
+    
 
-    if self.fn_checkbox_casos() == 3:
+    if caso == 4 or caso == 5 or caso == 7:
+      #Ocultar botón usuario
+      self.ui.L3.setEnabled(True)
+      self.ui.L3.setVisible(True)
+      self.ui.D_usuario.setEnabled(True)
+      self.ui.D_usuario.setVisible(True)
+
       #Mostrar frame de Nivel
-      self.ui.fr_Nivel.setVisible(True)
-      self.ui.fr_Nivel.setGeometry(9,300,241,40)
-      self.ui.D_usuario.setFocus()
-
-    if (self.fn_checkbox_casos() == 4 
-        or self.fn_checkbox_casos() == 5
-        or self.fn_checkbox_casos() == 7):
-      #Ocultar frame de Nivel
       self.ui.fr_Nivel.setVisible(False)
-      self.ui.D_usuario.setFocus()
-
-
-    if self.fn_checkbox_casos() == 6:
-      #Mostrar frame de Nivel
-      self.ui.fr_Nivel.setVisible(True)
-      self.ui.fr_Nivel.setGeometry(9,300,241,40)
-      self.ui.D_usuario.setFocus()
 
   #Función del boton b_Cancelar
   def fn_Cancelar(self):
@@ -758,154 +725,28 @@ class Registro_GUI(QtWidgets.QMainWindow):
     miConexion.commit()
     self.msg_info("Registro Exitoso...", f"El usuario {User} ha sido añadido a la Base de Datos")
     miConexion.close
-    
-    sys.exit()
 
   #Función para actualizar usuario
-  def fn_Actualizar(self, User, new_User, old_psw, Password, Confirmacion, Nivel):
+  def fn_Actualizar(self, User, old_psw, Password, Confirmacion, Nivel):
     #Abrir Base de Datos con SQLite3
     miConexion = sqlite3.connect("Usuarios")
     miCursor = miConexion.cursor()
 
-    if self.fn_checkbox_casos() == 1:
-      miCursor.execute("UPDATE USUARIOS SET Nivel = ? WHERE Usuario = ?", (Nivel, User))
-      miConexion.commit()
-      miConexion.close()
-      self.msg_info("Actualización de Datos", "El Nivel ha sido actualizado")
-      sys.exit()
+    miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?", (User, old_psw))
+    if miCursor.fetchall():
+      #Verificar constraseñas iguales
+      if Password == Confirmacion:
+        miCursor.execute("UPDATE USUARIOS SET PSW = ?, Nivel = ? WHERE Usuario = ?", [Password, Nivel, User])
+        self.msg_info("Contraseña actualizada", "La contraseña ha sido actualizada")
 
-    if self.fn_checkbox_casos() == 2:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                      (User, old_psw))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if Password == Confirmacion:
-          miCursor.execute("UPDATE USUARIOS SET PSW = ?, Nivel = ? WHERE Usuario = ?",
-                          (Password, Nivel, User))
-          miConexion.commit()
-          miConexion.close()
-          self.msg_info("Actualización de Datos", "Los datos de Contraseña y Nivel " 
-                      + "han sido actualizados")
-          sys.exit()
-
-        else:
-          self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
-                      + "coinciden" + '\n' + "Favor de volver a intentar")
+        miConexion.commit()
+        miConexion.close()
       else:
-        self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
-                      + "con el valor registrado" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 3:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ?", (User))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if User != new_User:
-          miCursor.execute("UPDATE USUARIOS SET Usuario = ?, Nivel = ? WHERE Usuario = ?",
-                          (new_User, Nivel, User))
-          miConexion.commit()
-          miConexion.close()
-          self.msg_info("Actualización de Datos", "Los datos de Usuario y Nivel "
-                        + "han sido actualizados")
-          sys.exit()
-        else:
-          self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
-                        + "anterior" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Usuario inválido", f"El Usuario {User} no se encuentra en la "
-                      + "Base de Datos" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 4:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                      (User, old_psw))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if Password == Confirmacion:
-          miCursor.execute("UPDATE USUARIOS SET PSW = ? WHERE Usuario = ?",
-                          (Password, User))
-          miConexion.commit()
-          miConexion.close()
-          self.msg_info("Actualización de Datos", "El dato de Contraseña " 
-                      + "ha sido actualizado")
-          sys.exit()
-        else:
-          self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
-                      + "coinciden" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
-                      + "con el valor registrado" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 5:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ?", (User))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if User != new_User:
-          miCursor.execute("UPDATE USUARIOS SET Usuario = ? WHERE Usuario = ?",
-                          (new_User, User))
-          miConexion.commit()
-          miConexion.close()
-          self.msg_info("Actualización de Datos", "El dato de Usuario "
-                        + "ha sido actualizados")
-          sys.exit()
-        else:
-          self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
-                        + "anterior" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Usuario inválido", f"El Usuario {User} no se encuentra en la "
-                      + "Base de Datos" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 6:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                      (User, old_psw))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if User != new_User:
-          if Password == Confirmacion:
-            miCursor.execute('''UPDATE USUARIOS SET Usuario = ?, PSW = ?, Nivel = ?
-                            WHERE Usuario = ?''', (new_User, Password, Nivel, User))
-            miConexion.commit()
-            miConexion.close()
-            self.msg_info("Actualización de Datos", "Los datos de Usuario, Contraseña "
-                          + "y Nivel han sido actualizados")
-            sys.exit()
-          else:
-            self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
-                      + "coinciden" + '\n' + "Favor de volver a intentar")
-        else:
-          self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
-                        + "anterior" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
-                      + "con el valor registrado" + '\n' + "Favor de volver a intentar")
-
-    if self.fn_checkbox_casos() == 7:
-      #Verificar constraseña anterior en la Base de Datos
-      miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                      (User, old_psw))
-      if miCursor.fetchall():
-        #Verificar constraseñas iguales
-        if User != new_User:
-          if Password == Confirmacion:
-            miCursor.execute("UPDATE USUARIOS SET Usuario = ?, PSW = ? WHERE Usuario = ?",
-                            (new_User, Password, User))
-            miConexion.commit()
-            miConexion.close()
-            self.msg_info("Actualización de Datos", "Los datos de Usuario y Contraseña "
-                          + "han sido actualizados")
-            sys.exit()
-          else:
-            self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
-                      + "coinciden" + '\n' + "Favor de volver a intentar")
-        else:
-          self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
-                        + "anterior" + '\n' + "Favor de volver a intentar")
-      else:
-        self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
-                      + "con el valor registrado" + '\n' + "Favor de volver a intentar")
+        self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
+                    + "coinciden" + '\n' + "Favor de volver a intentar")
+    else:
+      self.msg_info("Contraseña inválida", "La contraseña anterior no coincide "
+                    + "con el valor registrado" + '\n' + "Favor de volver a intentar")
   
   #Función para eliminar usuario
   def fn_Eliminar(self, User):
@@ -918,7 +759,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
     miConexion.commit()
     miConexion.close()
     self.msg_info("Usuario Eliminado...", f"El usuario {User} se elimino exitosamente")
-    sys.exit()
+
   # -------------------- Funciones para Mensajes -------------------- #
   #Función para mensajes de información
   def msg_info(self, titulo, mensaje):
@@ -944,9 +785,10 @@ class Registro_GUI(QtWidgets.QMainWindow):
       Respuesta = ""
       if msgbox.clickedButton() == b_Si:
         Respuesta = "Eliminar"
-
+        #self.fn_Resp(Respuesta)
       elif msgbox.clickedButton() == b_No:
         Respuesta  = ""
+        #self.fn_Resp(Respuesta)
       return Respuesta
 
 #Función para iniciar ventana de Login  
