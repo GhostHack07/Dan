@@ -7,7 +7,9 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from f_Login import Ui_MainWindow
 
-
+#from Registro_GUI import *
+#from Registro_GUI import Registro_GUI
+import m_Registro
 
 ###-------------------------------- USAR SOLO PARA PRUEBAS --------------------------------###
 
@@ -47,6 +49,15 @@ class Login_GUI(QtWidgets.QMainWindow):
     self.ui.b_Cancelar.clicked.connect(self.fn_Cancelar)
     #Accíon del botón b_Entrar
     self.ui.b_Entrar.clicked.connect(self.fn_Entrar)
+    #Accion del botón b_Registrar
+    self.ui.b_Registrar.clicked.connect(self.Abrir_Registrar)
+
+  def Abrir_Registrar(self):
+    self.hide()
+    ventana = m_Registro
+    ventana.start()
+
+
   
   #Función del boton b_Cancelar
   def fn_Cancelar(self):

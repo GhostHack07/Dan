@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1f82d22e-7461-46dc-87a5-387b8f3e6dad</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>m_Registro.py</StartupFile>
+    <StartupFile>m_Login.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -28,6 +28,9 @@
   <ItemGroup>
     <Compile Include="f_Login.py" />
     <Compile Include="f_Registro.py" />
+    <Compile Include="Main.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="module1.py">
       <SubType>Code</SubType>
     </Compile>

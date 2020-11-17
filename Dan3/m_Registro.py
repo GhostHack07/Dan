@@ -9,6 +9,9 @@ from PyQt5.QtWidgets import QDesktopWidget
 
 from PyQt5.QtWidgets import QMessageBox
 from f_Registro import Ui_MainWindow
+
+window = None
+
 class Registro_GUI(QtWidgets.QMainWindow):
   #Función para iniciar ventana de Login
   def __init__(self):
@@ -949,9 +952,16 @@ class Registro_GUI(QtWidgets.QMainWindow):
         Respuesta  = ""
       return Respuesta
 
-#Función para iniciar ventana de Login  
-if __name__ == '__main__':
-  app = QtWidgets.QApplication([])
-  application = Registro_GUI()
-  application.show()
-  sys.exit(app.exec())
+#Función para iniciar ventana de Registro
+def start():
+    global window  
+    window = Registro_GUI()
+    window.show()
+
+
+##Función para iniciar ventana de Registro 
+#if __name__ == '__main__':
+#  app = QtWidgets.QApplication([])
+#  application = Registro_GUI()
+#  application.show()
+#  sys.exit(app.exec())
