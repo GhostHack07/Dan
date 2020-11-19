@@ -4,13 +4,12 @@ import sqlite3
 
 #Importar ventana de Login creada en QT Designes  y exportada a python
 from PyQt5 import QtWidgets
+
+from PyQt5.QtWidgets import QDesktopWidget
+
 from PyQt5.QtWidgets import QMessageBox
 from f_Registro import Ui_MainWindow
 
-#Importar módulo de Login
-import m_Login
-
-#Variable global para cambio de ventana
 window = None
 
 class Registro_GUI(QtWidgets.QMainWindow):
@@ -729,8 +728,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
 
   #Función del boton b_Cancelar
   def fn_Cancelar(self):
-    #Función de volver a ventana de Login
-    self.fn_Cerrar_Ventana()
+    sys.exit()
   
   # --------- Funciones para Administrar acciones en SQLite --------- #
   #Función para comprobar si existe o no el usiario    
@@ -763,9 +761,8 @@ class Registro_GUI(QtWidgets.QMainWindow):
     miConexion.commit()
     self.msg_info("Registro Exitoso...", f"El usuario {User} ha sido añadido a la Base de Datos")
     miConexion.close
-    #Función de volver a ventana de Login
-    self.fn_Cerrar_Ventana()
-
+    
+    sys.exit()
 
   #Función para actualizar usuario
   def fn_Actualizar(self, User, new_User, old_psw, Password, Confirmacion, Nivel):
@@ -778,8 +775,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
       miConexion.commit()
       miConexion.close()
       self.msg_info("Actualización de Datos", "El Nivel ha sido actualizado")
-      #Función de volver a ventana de Login
-      self.fn_Cerrar_Ventana()
+      sys.exit()
 
     if self.fn_checkbox_casos() == 2:
       #Verificar constraseña anterior en la Base de Datos
@@ -794,8 +790,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
           miConexion.close()
           self.msg_info("Actualización de Datos", "Los datos de Contraseña y Nivel " 
                       + "han sido actualizados")
-          #Función de volver a ventana de Login
-          self.fn_Cerrar_Ventana()
+          sys.exit()
 
         else:
           self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
@@ -816,8 +811,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
           miConexion.close()
           self.msg_info("Actualización de Datos", "Los datos de Usuario y Nivel "
                         + "han sido actualizados")
-          #Función de volver a ventana de Login
-          self.fn_Cerrar_Ventana()
+          sys.exit()
         else:
           self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
                         + "anterior" + '\n' + "Favor de volver a intentar")
@@ -838,8 +832,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
           miConexion.close()
           self.msg_info("Actualización de Datos", "El dato de Contraseña " 
                       + "ha sido actualizado")
-          #Función de volver a ventana de Login
-          self.fn_Cerrar_Ventana()
+          sys.exit()
         else:
           self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
                       + "coinciden" + '\n' + "Favor de volver a intentar")
@@ -859,8 +852,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
           miConexion.close()
           self.msg_info("Actualización de Datos", "El dato de Usuario "
                         + "ha sido actualizados")
-          #Función de volver a ventana de Login
-          self.fn_Cerrar_Ventana()
+          sys.exit()
         else:
           self.msg_info("Usuario inválido", f"El usuario {new_User} es igual usuario "
                         + "anterior" + '\n' + "Favor de volver a intentar")
@@ -882,8 +874,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
             miConexion.close()
             self.msg_info("Actualización de Datos", "Los datos de Usuario, Contraseña "
                           + "y Nivel han sido actualizados")
-            #Función de volver a ventana de Login
-            self.fn_Cerrar_Ventana()
+            sys.exit()
           else:
             self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
                       + "coinciden" + '\n' + "Favor de volver a intentar")
@@ -908,8 +899,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
             miConexion.close()
             self.msg_info("Actualización de Datos", "Los datos de Usuario y Contraseña "
                           + "han sido actualizados")
-            #Función de volver a ventana de Login
-            self.fn_Cerrar_Ventana()
+            sys.exit()
           else:
             self.msg_info("Contraseña inválida", "La contraseña y su confirmación no "
                       + "coinciden" + '\n' + "Favor de volver a intentar")
@@ -931,8 +921,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
     miConexion.commit()
     miConexion.close()
     self.msg_info("Usuario Eliminado...", f"El usuario {User} se elimino exitosamente")
-    #Función de volver a ventana de Login
-    self.fn_Cerrar_Ventana()
+    sys.exit()
   # -------------------- Funciones para Mensajes -------------------- #
   #Función para mensajes de información
   def msg_info(self, titulo, mensaje):
@@ -962,18 +951,6 @@ class Registro_GUI(QtWidgets.QMainWindow):
       elif msgbox.clickedButton() == b_No:
         Respuesta  = ""
       return Respuesta
-
-  # ------------- Funciones para Eventos en la ventana  ------------- #
-  #Evento para cuando la ventana se cierra
-  def closeEvent(self, event):
-    ventana = m_Login
-    ventana.start()
-
-  #Cerrar ventana
-  def fn_Cerrar_Ventana(self):
-    self.destroy()
-    ventana = m_Login
-    ventana.start()
 
 #Función para iniciar ventana de Registro
 def start():

@@ -7,17 +7,13 @@ from m_Login import Login_GUI
 import sys
 #import sqlite3
 
-#Importar ventanas de los formularios
-import m_Login
-import m_Registro
-
-
 ##Importar ventana de Login creada en QT Designes  y exportada a python
 from PyQt5 import QtWidgets
 #from PyQt5.QtWidgets import QMessageBox
 #from f_Registro import Ui_MainWindow
 
 #def fn_Abrir_Ventana_Registro(self):
+
 
 #if __name__ == '__main__':
 #  app = QtWidgets.QApplication([])

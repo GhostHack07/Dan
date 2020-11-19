@@ -7,8 +7,6 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from f_Login import Ui_MainWindow
 
-from PyQt5 import Qt
-
 #from Registro_GUI import *
 #from Registro_GUI import Registro_GUI
 import m_Registro
@@ -36,9 +34,6 @@ import m_Registro
 ##Cerrar conexión de la Base de Datos
 #miConexion.close()
 
-#Contador para dar al usuario 3 intentos
-intento = 3
-
 #Leer y cargar ventan creada con QT Designer y exportada a Python
 class Login_GUI(QtWidgets.QMainWindow):
   #Función para iniciar ventana de Login
@@ -50,10 +45,6 @@ class Login_GUI(QtWidgets.QMainWindow):
     self.ui.b_Entrar.setEnabled(True)
     self.ui.b_Cancelar.setEnabled(True)
     self.ui.b_Registrar.setEnabled(True)
-
-    #Contador para dar al usuario 3 intentos
-    intento = 3
-
     #Acción de botón b_Cancelar
     self.ui.b_Cancelar.clicked.connect(self.fn_Cancelar)
     #Accíon del botón b_Entrar
@@ -61,12 +52,13 @@ class Login_GUI(QtWidgets.QMainWindow):
     #Accion del botón b_Registrar
     self.ui.b_Registrar.clicked.connect(self.Abrir_Registrar)
 
-  #Función para abrir formulario de Registro
   def Abrir_Registrar(self):
     self.hide()
     ventana = m_Registro
     ventana.start()
 
+
+  
   #Función del boton b_Cancelar
   def fn_Cancelar(self):
     sys.exit()
@@ -86,26 +78,16 @@ class Login_GUI(QtWidgets.QMainWindow):
       PSW VARCHAR(10),
       Nivel VARCHAR(15))
     ''')
-    
-    #Contador para dar al usuario 3 intentos
-    global intento
     #Leer los datos de la Base de Datos y comparar 
-    miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
-                    (User, Password))
-    if miCursor.fetchall() and intento <3:
+    miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?", (User, Password))
+    if miCursor.fetchall():
       self.msg_info("Login correcto", "Bienvenido " + User)
-      miConexion.close()
-      sys.exit()
     else:
-      #Descontar intentos
-      intento = intento - 1
-      if intento == 0:
-        self.msg_warning("Login incorrecto", "Se agotaron los intentos")
-        sys.exit()
-      else:
-        self.msg_warning("Login incorrecto", "Usuario y contraseña incorrectos" 
-                        + '\n' + f"Te quedan {intento} intentos")
-
+      self.msg_warning("Login incorrecto", "Usuario y contraseña incorrectos")
+    #Cerrar conexion de Base de Datos
+    miConexion.close()
+    sys.exit()
+  
   #Función para mensajes de Información
   def msg_info(self, titulo, mensaje):
       msgbox = QMessageBox()
@@ -121,13 +103,6 @@ class Login_GUI(QtWidgets.QMainWindow):
       msgbox.setWindowTitle(titulo)
       msgbox.setText(mensaje)
       msgbox.exec_()
-
-
-#Función para iniciar ventana de Login
-def start():
-    global window  
-    window = Login_GUI()
-    window.show()
 
 #Mostrar ventana Login
 if __name__ == '__main__':
