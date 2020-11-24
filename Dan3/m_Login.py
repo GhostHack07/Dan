@@ -9,9 +9,12 @@ from f_Login import Ui_MainWindow
 
 from PyQt5 import Qt
 
-#from Registro_GUI import *
-#from Registro_GUI import Registro_GUI
+#Importar módulo de ventana de Registro
 import m_Registro
+import m_Ventas
+
+#Variable global para cambio de ventana
+window = None
 
 ###-------------------------------- USAR SOLO PARA PRUEBAS --------------------------------###
 
@@ -24,7 +27,8 @@ import m_Registro
 #  Usuario VARCHAR(10) PRIMARY KEY,
 #  PSW VARCHAR(10))
 #''')
-
+##Cerrar conexión de la Base de Datos
+#miConexion.close()
 
 ##Ejemplo para introducir usuario desde el código
 
@@ -50,9 +54,6 @@ class Login_GUI(QtWidgets.QMainWindow):
     self.ui.b_Entrar.setEnabled(True)
     self.ui.b_Cancelar.setEnabled(True)
     self.ui.b_Registrar.setEnabled(True)
-
-    #Contador para dar al usuario 3 intentos
-    intento = 3
 
     #Acción de botón b_Cancelar
     self.ui.b_Cancelar.clicked.connect(self.fn_Cancelar)
@@ -95,7 +96,8 @@ class Login_GUI(QtWidgets.QMainWindow):
     if miCursor.fetchall() and intento <3:
       self.msg_info("Login correcto", "Bienvenido " + User)
       miConexion.close()
-      sys.exit()
+      self.Abrir_Ventas()
+      #sys.exit()
     else:
       #Descontar intentos
       intento = intento - 1
@@ -122,6 +124,12 @@ class Login_GUI(QtWidgets.QMainWindow):
       msgbox.setText(mensaje)
       msgbox.exec_()
 
+
+  #Funciones para abrir otras ventanas
+  def Abrir_Ventas(self):
+    self.destroy()
+    ventana = m_Ventas
+    ventana.start()
 
 #Función para iniciar ventana de Login
 def start():

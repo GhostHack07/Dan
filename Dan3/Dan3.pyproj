@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1f82d22e-7461-46dc-87a5-387b8f3e6dad</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Main.py</StartupFile>
+    <StartupFile>m_Ventas.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -28,6 +28,7 @@
   <ItemGroup>
     <Compile Include="f_Login.py" />
     <Compile Include="f_Registro.py" />
+    <Compile Include="f_Ventas.py" />
     <Compile Include="Main.py">
       <SubType>Code</SubType>
     </Compile>
@@ -38,6 +39,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="m_Login.py" />
+    <Compile Include="m_Ventas.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.7" />

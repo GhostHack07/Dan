@@ -30,10 +30,8 @@ class Registro_GUI(QtWidgets.QMainWindow):
     self.ui.b_eliminar.setChecked(False)
     self.ui.fr_Actualizacion.setVisible(False)
     self.ui.fr_Nivel.setVisible(True)
-    #self.ui.D
-    #self.ui.D_usuario.setFocus()
     
-    #Función para activar botones al inicio
+    #Llamar función para activar botones al inicio
     self.fn_botones_acciones()
     self.fn_Comprobacion()
     #self.fn_checkbox_nivel()
