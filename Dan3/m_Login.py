@@ -86,16 +86,20 @@ class Login_GUI(QtWidgets.QMainWindow):
       Usuario VARCHAR(10) PRIMARY KEY,
       PSW VARCHAR(10),
       Nivel VARCHAR(15))
-    ''')
+      ''')
     
     #Contador para dar al usuario 3 intentos
     global intento
     #Leer los datos de la Base de Datos y comparar 
     miCursor.execute("SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ?",
                     (User, Password))
-    if miCursor.fetchall() and intento <3:
+    if miCursor.fetchall() and intento <=3:
+      
       self.msg_info("Login correcto", "Bienvenido " + User)
       miConexion.close()
+
+      self.fn_temporal(User)
+
       self.Abrir_Ventas()
       #sys.exit()
     else:
@@ -124,6 +128,27 @@ class Login_GUI(QtWidgets.QMainWindow):
       msgbox.setText(mensaje)
       msgbox.exec_()
 
+  #Función para crear Base de Datos Temporal
+  def fn_temporal(self, User):
+    #Abrir Base de Datos con SQLite3
+    miConexion = sqlite3.connect("Usuarios")
+    miCursor = miConexion.cursor()
+    #Crear Base de Datos si no existe
+    miCursor.execute('''
+      CREATE TABLE IF NOT EXISTS TEMP (
+      Usuario VARCHAR(10),
+      Nivel VARCHAR(15))
+      ''')
+
+    #Eliminar cualquier usuario en tabla temporal
+    miCursor.execute("DELETE FROM TEMP")
+    miConexion.commit()
+
+    #Insertar valor de Usuario y Nivel en tabla temporal
+    miCursor.execute('''INSERT INTO TEMP (Usuario, Nivel)
+                        SELECT Usuario, Nivel FROM USUARIOS WHERE Usuario = ?''' , [User])
+    miConexion.commit()
+    miConexion.close()
 
   #Funciones para abrir otras ventanas
   def Abrir_Ventas(self):

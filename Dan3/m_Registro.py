@@ -743,7 +743,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
     resultado = miCursor.fetchall()
     resultado = resultado[0]        #Extrae el Index 0 de la Tupla para hacer comparación
     #Cerrar conexxion se SQLite
-    miConexion.close
+    miConexion.close()
 
     if 1 in resultado:
       return "Si"         #El usuario ya existe

@@ -6,7 +6,6 @@ import sqlite3
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 from f_Ventas import Ui_MainWindow
-from PyQt5.QtGui import QFont
 
 #Importar módulo de Login
 import m_Login
@@ -71,10 +70,11 @@ class Ventas_GUI(QtWidgets.QMainWindow):
                                       border-radius: 14px;
                                       }''')
 
-    #self.ui.b_Usuarios.setEnabled(False)
+    self.ui.b_Usuarios.setEnabled(False)
     self.ui.b_Cupon.setEnabled(False)
     self.ui.b_Inventario.setEnabled(False)
     self.ui.b_Ticket.setEnabled(False)
+    #self.ui.b_Cerrar.setEnabled(False)
     
     #Deshabilitar las cajas de texto
     self.ui.t_Ticket.setEnabled(False)
@@ -87,19 +87,13 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     #Acción de botones
     self.ui.b_Cerrar.clicked.connect(self.Abrir_Login)
 
+  def Boton(self):
+    self.ui.b_Cerrar.setStyleSheet('''border-width: 1px;
+                                      border-style: solid;
+                                      border-color: gray;
+                                      border-radius: 14px;''')
     
-    #Cargar dato de Usuario y Nivel en la ventana
-    self.ui.L5.setText(self.fn_tmp_Datos()[0])
-    #Cambiar formato del Label
-    self.ui.L5.setFont(QFont("Calibri", 11))
-    self.ui.L5.setStyleSheet("QLabel {color: rgb(170, 170, 170)}")
-
-    self.ui.L6.setText(self.fn_tmp_Datos()[1])
-    #Cambiar formato del Label
-    self.ui.L6.setFont(QFont("Calibri", 11))
-    self.ui.L6.setStyleSheet("QLabel {color: rgb(170, 170, 170)}")
   
-    
   # ----------------- Funciones para Abrir Ventanas ----------------- #
   def Abrir_Login(self):
     self.destroy()
@@ -136,28 +130,11 @@ class Ventas_GUI(QtWidgets.QMainWindow):
         Respuesta  = ""
       return Respuesta
 
-  def fn_tmp_Datos(self):
-    #Abrir Base de Datos con SQLite3
-    miConexion = sqlite3.connect("Usuarios")
-    miCursor = miConexion.cursor()
-    #Conusltar datos en la Base de Datos temporal
-    miCursor.execute("SELECT Usuario, Nivel FROM TEMP LIMIT 0, 1")
-    #Extraer el usuario del renglon 1 en formato de Lista
-    r = miCursor.fetchall()
-    #Extraer datos de la lista usando la posición 0 de la lista
-    Datos = r[0]
-    #Cerrar conexion de Base de Datos
-    miConexion.close()
-    #La fucnion adquiere el valor de Datos en forma de Tupla
-    return Datos
-
-
 #Función para iniciar ventana de Ventas
 def start():
     global window  
     window = Ventas_GUI()
     window.show()
-
 #Función para iniciar ventana de Registro 
 if __name__ == '__main__':
   app = QtWidgets.QApplication([])
