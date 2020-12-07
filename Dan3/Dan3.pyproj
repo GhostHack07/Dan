@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1f82d22e-7461-46dc-87a5-387b8f3e6dad</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>m_Ventas.py</StartupFile>
+    <StartupFile>Main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -26,6 +26,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="m_Constantes.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="f_Inventario.py" />
     <Compile Include="f_Login.py" />
     <Compile Include="f_Registro.py" />
     <Compile Include="f_Ventas.py" />
@@ -33,6 +37,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="module1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="m_Inventario.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="m_Registro.py">

@@ -4,13 +4,14 @@ import sqlite3
 
 #Importar ventana de Login creada en QT Designes  y exportada a python
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 from f_Ventas import Ui_MainWindow
 from PyQt5.QtGui import QFont
 
 #Importar módulo de Login
 import m_Login
 import m_Registro
+import m_Inventario
 
 
 #Variable global para cambio de ventana
@@ -24,56 +25,240 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     self.ui.setupUi(self)
 
     #Habilitar o deshabilitar botones al iniciar
-    self.ui.b_Actualizar.setEnabled(False)
-    self.ui.b_Actualizar.setStyleSheet('''background-color: rgb(240, 240, 240);
-                                          border-width: 1px;
-                                          border-style: solid;
-                                          border-color: gray;
-                                          border-radius: 14px;''')
-    self.ui.b_Eliminar.setEnabled(False)
-    self.ui.b_Eliminar.setStyleSheet('''background-color: rgb(240, 240, 240);
-                                          border-width: 1px;
-                                          border-style: solid;
-                                          border-color: gray;
-                                          border-radius: 14px;''')
-    self.ui.b_Cancelar.setEnabled(False)
-    self.ui.b_Cancelar.setStyleSheet('''background-color: rgb(240, 240, 240);
-                                          border-width: 1px;
-                                          border-style: solid;
-                                          border-color: gray;
-                                          border-radius: 14px;''')
-    self.ui.b_Cobrar.setEnabled(False)
-    self.ui.b_Cobrar.setStyleSheet('''background-color: rgb(240, 240, 240);
-                                          border-width: 1px;
-                                          border-style: solid;
-                                          border-color: gray;
-                                          border-radius: 14px;''')
+    self.ui.b_Buscar.setEnabled(True)
+    self.ui.b_Actualizar.setEnabled(True)
+    self.ui.b_Eliminar.setEnabled(True)
+    self.ui.b_Cancelar.setEnabled(True)
+    self.ui.b_Cobrar.setEnabled(True)
 
-    self.ui.b_Cerrar.setStyleSheet('''QPushButton::active {
+    #Configurar apariencia de botones
+    self.ui.b_Buscar.setStyleSheet('''QPushButton::active {
                                       background-color: rgb(240, 240, 240);
                                       border-width: 1px;
                                       border-style: solid;
-                                      border-color: gray;
+                                      border-color: black;
                                       border-radius: 14px;
                                       }
                                       QPushButton::hover {
-                                      background-color : rgb(250, 200, 170);
+                                      background-color: rgb(220, 220, 220);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: black;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(200, 200, 200);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: black;
+                                      border-radius: 14px;
+                                      }''')
+
+    self.ui.b_Actualizar.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(170, 200, 255);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: navy;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(150, 178, 225);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: navy;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(130, 154, 195);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: navy;
+                                      border-radius: 14px;
+                                      }''')
+
+    
+    self.ui.b_Eliminar.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(255, 230, 150);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: orange;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(240, 216, 141);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: orange;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(220, 198, 129);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: orange;
+                                      border-radius: 14px;
+                                      }''')
+    
+    self.ui.b_Cancelar.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(250, 200, 170);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: darkred;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(240, 192, 164);
                                       border-width: 1px;
                                       border-style: solid;
                                       border-color: darkred;
                                       border-radius: 14px;
                                       }
                                       QPushButton::pressed {
-                                      background-color : darkorange;
+                                      background-color: rgb(220, 176, 150);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: darkred;
+                                      border-radius: 14px;
+                                      }''')
+    
+    self.ui.b_Cobrar.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(135, 250, 120);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: green;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(120, 222, 106);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: green;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(100, 185, 88);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: green;
+                                      border-radius: 14px;
+                                      }''')
+
+    self.ui.b_Usuarios.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(240, 240, 240);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(220, 220, 220);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(200, 200, 200);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }''')
+
+    self.ui.b_Cupon.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(240, 240, 240);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(220, 220, 220);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(200, 200, 200);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }''')
+
+    self.ui.b_Inventario.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(240, 240, 240);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(220, 220, 220);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(200, 200, 200);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }''')
+
+    self.ui.b_Ticket.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(240, 240, 240);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(220, 220, 220);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(200, 200, 200);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: grey;
+                                      border-radius: 14px;
+                                      }''')
+
+    self.ui.b_Cerrar.setStyleSheet('''QPushButton::active {
+                                      background-color: rgb(250, 200, 170);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: darkred;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::hover {
+                                      background-color: rgb(240, 192, 164);
+                                      border-width: 1px;
+                                      border-style: solid;
+                                      border-color: darkred;
+                                      border-radius: 14px;
+                                      }
+                                      QPushButton::pressed {
+                                      background-color: rgb(220, 176, 150);
                                       border-width: 1px;
                                       border-style: solid;
                                       border-color: darkred;
                                       border-radius: 14px;
                                       }''')
 
-    #self.ui.b_Usuarios.setEnabled(False)
+    #********* Cargar tabla de datos temporal ********
+    self.fn_Leer_Datos_BDTemporal()
+
+    self.ui.b_Usuarios.setEnabled(False)
     self.ui.b_Cupon.setEnabled(False)
-    self.ui.b_Inventario.setEnabled(False)
+    self.ui.b_Inventario.setEnabled(True)
     self.ui.b_Ticket.setEnabled(False)
     
     #Deshabilitar las cajas de texto
@@ -86,6 +271,10 @@ class Ventas_GUI(QtWidgets.QMainWindow):
 
     #Acción de botones
     self.ui.b_Cerrar.clicked.connect(self.Abrir_Login)
+    self.ui.b_Inventario.clicked.connect(self.Abri_Gestion_Inventario)
+    
+    # --------------- EJEMPLO -------------- #
+    self.ui.b_Buscar.clicked.connect(self.fn_Leer_Datos_BDTemporal)
 
     
     #Cargar dato de Usuario y Nivel en la ventana
@@ -99,11 +288,37 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     self.ui.L6.setFont(QFont("Calibri", 11))
     self.ui.L6.setStyleSheet("QLabel {color: rgb(170, 170, 170)}")
   
+    #Abrir Base de Datos con SQLite3
+    miConexion = sqlite3.connect("Productos")
+    miCursor = miConexion.cursor()
+    #Crear Base de Datos si no existe
+    miCursor.execute('''
+      CREATE TABLE IF NOT EXISTS Inventario (
+      SKU VARCHAR(10) PRIMARY KEY,
+      Producto VARCHAR(1000),
+      Categoria VARCHAR(50),
+      Inventario INTEGER(4),
+      Precio REAL(4),
+      Descuento REAL(4))
+      ''')
     
+    #Productos = [
+    #  ("P001", "Teclado HTP-10054", "Periferico", 15, 1450.5, 0)
+    #  ]
+    
+    #miCursor.executemany("INSERT INTO Inventario VALUES (?, ?, ?, ?, ?, ?)", Productos)
+    #miConexion.commit()
+    #miConexion.close()
+
+
   # ----------------- Funciones para Abrir Ventanas ----------------- #
   def Abrir_Login(self):
     self.destroy()
     ventana = m_Login
+    ventana.start()
+  def Abri_Gestion_Inventario(self):
+    #self.destroy()
+    ventana = m_Inventario
     ventana.start()
 
   # -------------------- Funciones para Mensajes -------------------- #
@@ -136,6 +351,11 @@ class Ventas_GUI(QtWidgets.QMainWindow):
         Respuesta  = ""
       return Respuesta
 
+  
+
+
+
+#Función para cargar datos de Usuario desde la Base de Datos temporal
   def fn_tmp_Datos(self):
     #Abrir Base de Datos con SQLite3
     miConexion = sqlite3.connect("Usuarios")
@@ -150,6 +370,63 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     miConexion.close()
     #La fucnion adquiere el valor de Datos en forma de Tupla
     return Datos
+
+  def fn_Leer_Datos_BDTemporal(self):
+    #Abrir Base de Datos con SQLite3
+    miConexion = sqlite3.connect("Productos")
+    miCursor = miConexion.cursor()
+    #Crear Base de Datos si no existe
+    miCursor.execute('''
+      CREATE TABLE IF NOT EXISTS TEMP (
+      SKU VARCHAR(10) PRIMARY KEY,
+      Producto VARCHAR(1000),
+      Cantidad INTEGER(4),
+      Precio REAL(4),
+      Descuento REAL(4),
+      Importe REAL(4))
+      ''')
+
+    #miCursor.execute('''
+    #  CREATE TABLE IF NOT EXISTS TEMP (
+    #  SKU VARCHAR(10) PRIMARY KEY,
+    #  Producto VARCHAR(1000),
+    #  Cantidad VARCHAR(4),
+    #  Precio VARCHAR(4),
+    #  Descuento VARCHAR(4),
+    #  Importe VARCHAR(4))
+    #  ''')
+
+    #Pedido = [
+    #  ("P001", "Teclado HTP-10054", 1, 1450.5, 0, 1450.5),
+    #  ("P002", "Teclado HTP-2", 2, 145.5, 0, 145.5),
+    #  ("P003", "Teclado HTP-3", 3, 14.5, 0, 14.5)]
+      
+    #miCursor.executemany("INSERT INTO TEMP VALUES (?, ?, ?, ?, ?, ?)", Pedido)
+    #miConexion.commit()
+    #miConexion.close()
+
+    #Contar cantidad de renglones en Base de Datos Temporal
+    #miCursor.execute("SELECT count(*) FROM TEMP")
+    #renglones = miCursor.fetchall()
+    #renglones = renglones[0]
+    #renglones = renglones[0]
+
+    #Extraer los datos en la Base de Datos Temporal
+    miCursor.execute("SELECT * FROM TEMP")
+    datos = miCursor.fetchall()
+
+    r = 0
+    for valor in datos:
+      self.ui.t_Ventas.setRowCount(r + 1)
+      self.ui.t_Ventas.setItem(r, 0, QTableWidgetItem(str(valor[0])))
+      self.ui.t_Ventas.setItem(r, 1, QTableWidgetItem(str(valor[1])))
+      self.ui.t_Ventas.setItem(r, 2, QTableWidgetItem(str(valor[2])))
+      self.ui.t_Ventas.setItem(r, 3, QTableWidgetItem(str(valor[3])))
+      self.ui.t_Ventas.setItem(r, 4, QTableWidgetItem(str(valor[4])))
+      self.ui.t_Ventas.setItem(r, 5, QTableWidgetItem(str(valor[5])))
+      #Pasar al siguiente renglón
+      r = r + 1
+    
 
 
 #Función para iniciar ventana de Ventas

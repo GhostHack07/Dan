@@ -51,7 +51,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
     self.ui.b_emp.clicked.connect(self.fn_botones_nivel)
     self.ui.b_adm.clicked.connect(self.fn_botones_nivel)
 
-    #Acción de botones opcionales Empleado / Administrador
+    #Acción de botones opcionales Nuevo / Actualizar / Eliminar
     self.ui.b_nuevo.clicked.connect(self.fn_botones_acciones)
     self.ui.b_actualizar.clicked.connect(self.fn_botones_acciones)
     self.ui.b_eliminar.clicked.connect(self.fn_botones_acciones)
