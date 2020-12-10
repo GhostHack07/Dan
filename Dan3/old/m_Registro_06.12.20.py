@@ -34,7 +34,7 @@ class Registro_GUI(QtWidgets.QMainWindow):
     #Llamar función para activar botones al inicio
     self.fn_botones_acciones()
     self.fn_Comprobacion()
-    ##self.fn_checkbox_nivel()
+    #self.fn_checkbox_nivel()
 
     #Comprobar que las celdas tengan datos
     self.ui.D_usuario.textChanged.connect(self.fn_Comprobacion)

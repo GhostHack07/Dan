@@ -51,9 +51,9 @@ class Login_GUI(QtWidgets.QMainWindow):
     self.ui = Ui_MainWindow()
     self.ui.setupUi(self)
     #Habilitar o deshabilitar botones
-    self.ui.b_Entrar.setEnabled(False)
+    self.ui.b_Entrar.setEnabled(True)
     self.ui.b_Cancelar.setEnabled(True)
-    self.ui.b_Registrar.setEnabled(False)
+    self.ui.b_Registrar.setEnabled(True)
 
     #Acción de botón b_Cancelar
     self.ui.b_Cancelar.clicked.connect(self.fn_Cancelar)
@@ -62,48 +62,14 @@ class Login_GUI(QtWidgets.QMainWindow):
     #Accion del botón b_Registrar
     self.ui.b_Registrar.clicked.connect(self.Abrir_Registrar)
 
-    #Comprobar que las celdas tengan datos
-    self.ui.D_usuario.textChanged.connect(self.fn_Comprobacion)
-    self.ui.D_psw.textChanged.connect(self.fn_Comprobacion)
-
-  
-  #Función que deshabilita botón Entrar y Registrar si estan vacias las celdas
-  def fn_Comprobacion(self):
-    if (not self.ui.D_usuario.text() and not self.ui.D_psw.text()):
-      self.ui.b_Entrar.setEnabled(False)
-      self.ui.b_Registrar.setEnabled(False)
-    elif (not self.ui.D_usuario.text() or not self.ui.D_psw.text()):
-      self.ui.b_Entrar.setEnabled(False)
-      self.ui.b_Registrar.setEnabled(False)
-    else:
-      self.ui.b_Entrar.setEnabled(True)
-      self.ui.b_Registrar.setEnabled(True)
-
   #Función para abrir formulario de Registro
   def Abrir_Registrar(self):
-    #Leer datos ingresados
-    User = self.ui.D_usuario.text()
-    Password = self.ui.D_psw.text()
-    #Abrir Base de Datos con SQLite3
-    miConexion = sqlite3.connect("Usuarios")
-    miCursor = miConexion.cursor()
-
-    miCursor.execute('''SELECT * FROM USUARIOS WHERE Usuario = ? AND PSW = ? 
-                        AND Nivel = "Administrador" ''', [User, Password])
-    
-    #Abrir registro de usuarios si se tienen derechos de administrador
-    if miCursor.fetchall():
-      self.hide()
-      ventana = m_Registro
-      ventana.start()
-    else:
-      self.msg_warning("Sin derechos de acceso", "Verificar que el usuario y contraseña "
-                       + "sean correctos y" + '\n' + "que tengas nivel de administrador." 
-                        + '\n' + "Favor de volver a intentar")
+    self.hide()
+    ventana = m_Registro
+    ventana.start()
 
   #Función del boton b_Cancelar
   def fn_Cancelar(self):
-    #self.destroy()
     sys.exit()
   
   #Función del boton b_Entrar
@@ -129,19 +95,19 @@ class Login_GUI(QtWidgets.QMainWindow):
                     (User, Password))
     if miCursor.fetchall() and intento <=3:
       
-      ##self.msg_info("Login correcto", "Bienvenido " + User)
+      self.msg_info("Login correcto", "Bienvenido " + User)
       miConexion.close()
 
       self.fn_temporal(User)
 
       self.Abrir_Ventas()
-
+      #sys.exit()
     else:
       #Descontar intentos
       intento = intento - 1
       if intento == 0:
         self.msg_warning("Login incorrecto", "Se agotaron los intentos")
-        self.fn_Cancelar()
+        sys.exit()
       else:
         self.msg_warning("Login incorrecto", "Usuario y contraseña incorrectos" 
                         + '\n' + f"Te quedan {intento} intentos")
@@ -190,16 +156,11 @@ class Login_GUI(QtWidgets.QMainWindow):
     ventana = m_Ventas
     ventana.start()
 
-  def closeEvent(self, event):
-    self.fn_Cancelar()
-
 #Función para iniciar ventana de Login
 def start():
     global window  
     window = Login_GUI()
     window.show()
-
-
 
 #Mostrar ventana Login
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 from f_Ventas import Ui_MainWindow
 from PyQt5.QtGui import QFont
 
-#Importar módulos para abrir otras ventanas
+#Importar módulo de Login
 import m_Login
 import m_Registro
 import m_Inventario
@@ -243,9 +243,9 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     self.ui.b_Cerrar.clicked.connect(self.Abrir_Login)
     self.ui.b_Inventario.clicked.connect(self.Abri_Gestion_Inventario)
     
-    ## --------------- EJEMPLO -------------- ##
+    # --------------- EJEMPLO -------------- #
     self.ui.b_Buscar.clicked.connect(self.fn_Leer_Datos_BDTemporal)
-    ## --------------- EJEMPLO -------------- ##
+
     
     #Cargar dato de Usuario y Nivel en la ventana
     self.ui.L5.setText(self.fn_tmp_Datos()[0])
