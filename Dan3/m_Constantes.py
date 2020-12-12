@@ -22,21 +22,21 @@ def Constante_Categorias():
   return categorias
 
 
-## PRODUCTOS ##
-def Constante_Productos():
-  #Abrir Base de Datos con SQLite3
-  miConexion = sqlite3.connect("Productos")
-  miCursor = miConexion.cursor()
+#### PRODUCTOS ##
+##def Constante_Productos():
+##  #Abrir Base de Datos con SQLite3
+##  miConexion = sqlite3.connect("Productos")
+##  miCursor = miConexion.cursor()
 
-  miCursor.execute("SELECT Producto FROM Inventario")
-  #Extraer todas las categorias de la Base de Datos
-  datos = miCursor.fetchall()
-  miConexion.close()
-  #Extraer categorias diferentes como segmento
-  grupo = set(datos)
-  #Acomodar categorias diferentes
-  productos = []
-  for valor in grupo:
-    productos.append(valor[0])
+##  miCursor.execute("SELECT Producto FROM Inventario")
+##  #Extraer todas las categorias de la Base de Datos
+##  datos = miCursor.fetchall()
+##  miConexion.close()
+##  #Extraer categorias diferentes como segmento
+##  grupo = set(datos)
+##  #Acomodar categorias diferentes
+##  productos = []
+##  for valor in grupo:
+##    productos.append(valor[0])
   
-  return productos
+##  return productos

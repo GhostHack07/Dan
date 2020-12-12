@@ -26,7 +26,11 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="f_Cantidad.py" />
     <Compile Include="f_Productos.py" />
+    <Compile Include="m_Cantidad.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="m_Constantes.py">
       <SubType>Code</SubType>
     </Compile>

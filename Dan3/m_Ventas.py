@@ -396,7 +396,7 @@ class Ventas_GUI(QtWidgets.QMainWindow):
       self.ui.t_Ventas.setItem(r, 5, QTableWidgetItem(str(valor[5])))
       #Pasar al siguiente renglón
       r = r + 1
-    
+    miConexion.close()
 
 
 #Función para iniciar ventana de Ventas

@@ -15,7 +15,6 @@ import m_Ventas
 
 #Importar módulo m_Constantes
 import m_Constantes as C
-import m_Cantidad
 
 #Variable global para cambio de ventana
 window = None
@@ -33,9 +32,9 @@ class Productos_GUI(QtWidgets.QMainWindow):
     #Habilitar o deshabilitar botones al iniciar
     self.ui.b_Buscar.setEnabled(False)
     self.ui.b_Cancelar.setEnabled(True)
-    self.ui.b_Agregar.setEnabled(True)
+    self.ui.b_Agregar.setEnabled(False)
     self.ui.t_Productos.setEnabled(True)
-    self.ui.b_producto.setChecked(True)
+    self.ui.b_sku.setChecked(True)
 
     #Habilitar o deshabilitar ingresos de textos / comboboxes
     self.ui.D_sku.setEnabled(True)
@@ -69,7 +68,6 @@ class Productos_GUI(QtWidgets.QMainWindow):
     #Acción de botones
     self.ui.b_Buscar.clicked.connect(self.fn_Buscar)
     self.ui.b_Limpiar.clicked.connect(self.fn_Limpiar_Tabla)
-    self.ui.b_Agregar.clicked.connect(self.fn_Agregar)
     self.ui.b_Cancelar.clicked.connect(self.fn_Cancelar)
 
     #Acción de botones opcionales SKU / Categoria / Producto
@@ -86,7 +84,6 @@ class Productos_GUI(QtWidgets.QMainWindow):
     #Asegurar que solo se seleccione una opción
     if self.ui.b_sku.isChecked():
       self.ui.b_categoria.setChecked(False)
-      self.ui.b_producto.setChecked(False)
 
       self.ui.D_sku.setEnabled(True)
       self.ui.D_categoria.setEnabled(False)
@@ -97,7 +94,6 @@ class Productos_GUI(QtWidgets.QMainWindow):
 
     elif self.ui.b_categoria.isChecked():
       self.ui.b_sku.setChecked(False)
-      self.ui.b_producto.setChecked(False)
 
       self.ui.D_sku.setEnabled(False)
       self.ui.D_categoria.setEnabled(True)
@@ -106,20 +102,9 @@ class Productos_GUI(QtWidgets.QMainWindow):
       #Limpiar tabla al cambiar de opción
       self.fn_Limpiar_Tabla()
 
-    elif self.ui.b_producto.isChecked():
-      self.ui.b_sku.setChecked(False)
-      self.ui.b_categoria.setChecked(False)
-
-      self.ui.D_sku.setEnabled(True)
-      self.ui.D_categoria.setEnabled(False)
-      #Borrar dato al cambiar la selección
-      self.ui.D_categoria.setCurrentIndex(0)
-      #Limpiar tabla al cambiar de opción
-      self.fn_Limpiar_Tabla()
-
   def fn_Comprobacion(self):
     #Acciones por Caso 
-    if self.fn_Casos() == "SKU" or self.fn_Casos() == "Producto":
+    if self.fn_Casos() == "SKU":
       if not self.ui.D_sku.text():
         self.ui.b_Buscar.setEnabled(False)
       else:
@@ -134,10 +119,8 @@ class Productos_GUI(QtWidgets.QMainWindow):
   def fn_Casos(self):
     if self.ui.b_sku.isChecked():
       Caso = "SKU"
-    elif self.ui.b_categoria.isChecked():
+    if self.ui.b_categoria.isChecked():
       Caso = "Categoria"
-    elif self.ui.b_producto.isChecked():
-      Caso = "Producto"
     return Caso
 
   def fn_Limpiar_Tabla(self):
@@ -169,7 +152,7 @@ class Productos_GUI(QtWidgets.QMainWindow):
         self.msg_info("Producto no encontrado", f"El SKU {sku} no se encuentra en la "
                         + "Base de Datos" + '\n' + "Favor de volver a intentar")
 
-    elif self.fn_Casos() == "Categoria":
+    if self.fn_Casos() == "Categoria":
       #Abrir Base de Datos con SQLite3
       miConexion = sqlite3.connect("Productos")
       miCursor = miConexion.cursor()
@@ -182,65 +165,9 @@ class Productos_GUI(QtWidgets.QMainWindow):
       #cerrar conexión SQLite
       miConexion.close()
 
-    elif self.fn_Casos() == "Producto":
-      #Leer dato ingresado
-      texto = self.ui.D_sku.text()
-      #Abrir Base de Datos con SQLite3
-      miConexion = sqlite3.connect("Productos")
-      miCursor = miConexion.cursor()
-
-      busqueda = texto + "%"
-
-      miCursor.execute("SELECT * FROM Inventario WHERE Producto LIKE ?", [busqueda])
-      datos = miCursor.fetchall()
-
-      #Acomodar datos en la tabla
-      self.fn_Acomodar_Datos(datos)
-      #cerrar conexión SQLite
-      miConexion.close()
-
-  #Función para agregar producto a la ventana de Ventas
-  def fn_Agregar(self):
-    seleccion = self.ui.t_Productos.selectedItems()
-    #Verificar que se haya seleccionado un renglon
-    if seleccion:
-      sku = seleccion[0].data(0)
-      
-      self.fn_Abrir_Cantidad()
-
-      #Abrir Base de Datos con SQLite3
-      miConexion = sqlite3.connect("Productos")
-      miCursor = miConexion.cursor()
-
-      miCursor.execute("SELECT Cantidad FROM Cantidad_Temp")
-      cantidad = miCursor.fetchall()
-
-      print (cantidad)
-
-      #miCursor.execute('''INSERT INTO TEMP (SKU, Producto, Precio, Descuento)
-      #                    SELECT SKU, Producto, Precio, Descuento FROM Inventario
-      #                    WHERE SKU = ?''', [sku])
-
-      #miConexion.commit()
-      #miConexion.close()
-
-
-    else:
-      self.msg_info("Sin selección", "No has seleccionado ningún producto."
-                    + '\n' + "Favor de seleccionar un producto.")
-
-
-    #if Producto_Seleccionado:
-
-
   def fn_Cancelar(self):
-    #Función de volver a ventana de Ventas
+    #Función de volver a ventana de Login
     self.fn_Cerrar_Ventana()
-
-  def fn_Abrir_Cantidad(self):
-    ventana = m_Cantidad
-    ventana.start()
-
     
   #Función para acomodar datos en la tabla
   def fn_Acomodar_Datos(self, datos):
@@ -268,6 +195,7 @@ class Productos_GUI(QtWidgets.QMainWindow):
       return "No"
     miConexion.close()
 
+    
   # -------------------- Funciones para Mensajes -------------------- #
   #Función para mensajes de información
   def msg_info(self, titulo, mensaje):
