@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
-    <height>381</height>
+    <width>720</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>570</width>
-    <height>380</height>
+    <width>720</width>
+    <height>350</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>570</width>
-    <height>800</height>
+    <width>720</width>
+    <height>350</height>
    </size>
   </property>
   <property name="palette">
@@ -95,7 +95,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>571</width>
+      <width>721</width>
       <height>30</height>
      </rect>
     </property>
@@ -112,34 +112,12 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="b_Cancelar">
-    <property name="geometry">
-     <rect>
-      <x>404</x>
-      <y>340</y>
-      <width>100</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Swis721 LtCn BT</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
-    </property>
-    <property name="text">
-     <string>Cancelar</string>
-    </property>
-   </widget>
    <widget class="QFrame" name="fr_buscar">
     <property name="geometry">
      <rect>
       <x>4</x>
       <y>59</y>
-      <width>561</width>
+      <width>564</width>
       <height>81</height>
      </rect>
     </property>
@@ -149,52 +127,11 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="b_Buscar">
-     <property name="geometry">
-      <rect>
-       <x>433</x>
-       <y>7</y>
-       <width>100</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Swis721 LtCn BT</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="text">
-      <string>Buscar</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="L4">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>12</y>
-       <width>80</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Swis721 LtCn BT</family>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aaaaaa;&quot;&gt;SKU&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="D_sku">
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>12</y>
+       <y>15</y>
        <width>200</width>
        <height>22</height>
       </rect>
@@ -252,30 +189,11 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="L5">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>53</y>
-       <width>80</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Swis721 LtCn BT</family>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aaaaaa;&quot;&gt;Categoría&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
     <widget class="QComboBox" name="D_categoria">
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>51</y>
+       <y>50</y>
        <width>200</width>
        <height>24</height>
       </rect>
@@ -451,47 +369,8 @@
       <rect>
        <x>117</x>
        <y>15</y>
-       <width>15</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="b_categoria">
-     <property name="geometry">
-      <rect>
-       <x>17</x>
-       <y>56</y>
-       <width>15</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="b_producto">
-     <property name="geometry">
-      <rect>
-       <x>17</x>
-       <y>15</y>
-       <width>15</width>
-       <height>17</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="L3">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>12</y>
-       <width>80</width>
-       <height>20</height>
+       <width>71</width>
+       <height>22</height>
       </rect>
      </property>
      <property name="font">
@@ -500,39 +379,65 @@
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(170, 170, 170);</string>
+     </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aaaaaa;&quot;&gt;Productos&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>SKU</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="b_Agregar">
-    <property name="geometry">
-     <rect>
-      <x>66</x>
-      <y>340</y>
-      <width>100</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Swis721 LtCn BT</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
-    </property>
-    <property name="text">
-     <string>Agregar</string>
-    </property>
+    <widget class="QRadioButton" name="b_categoria">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>50</y>
+       <width>91</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Swis721 LtCn BT</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(170, 170, 170);
+</string>
+     </property>
+     <property name="text">
+      <string>Categoría</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="b_producto">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>15</y>
+       <width>91</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Swis721 LtCn BT</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(170, 170, 170);</string>
+     </property>
+     <property name="text">
+      <string>Productos</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QLabel" name="L2">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>30</y>
-      <width>571</width>
+      <width>721</width>
       <height>30</height>
      </rect>
     </property>
@@ -685,61 +590,240 @@
      </property>
     </item>
    </widget>
-   <widget class="QPushButton" name="b_Limpiar">
+   <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>234</x>
-      <y>340</y>
-      <width>100</width>
-      <height>30</height>
+      <x>580</x>
+      <y>60</y>
+      <width>131</width>
+      <height>271</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>Swis721 LtCn BT</family>
-      <pointsize>12</pointsize>
-     </font>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
     </property>
-    <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
     </property>
-    <property name="text">
-     <string>Limpiar</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="L6">
-    <property name="geometry">
-     <rect>
-      <x>520</x>
-      <y>360</y>
-      <width>50</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Calibri</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 1.4.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
+    <widget class="QLabel" name="L7">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>240</y>
+       <width>50</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 1.6.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="b_Agregar">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>100</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Swis721 LtCn BT</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="text">
+      <string>Agregar</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="b_Limpiar">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>150</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Swis721 LtCn BT</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="text">
+      <string>Limpiar</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="D_cantidad">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>100</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>160</green>
+           <blue>245</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Highlight">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>160</green>
+           <blue>245</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>160</green>
+           <blue>245</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Highlight">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>160</green>
+           <blue>245</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>120</red>
+           <green>120</green>
+           <blue>120</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Highlight">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>120</green>
+           <blue>215</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="suffix">
+      <string/>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>1000</number>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="b_Cancelar">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>200</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Swis721 LtCn BT</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="text">
+      <string>Cancelar</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="L6">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>20</y>
+       <width>80</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Swis721 LtCn BT</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#aaaaaa;&quot;&gt;Cantidad&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
  <tabstops>
+  <tabstop>b_producto</tabstop>
   <tabstop>b_sku</tabstop>
   <tabstop>b_categoria</tabstop>
   <tabstop>D_sku</tabstop>
   <tabstop>D_categoria</tabstop>
-  <tabstop>b_Buscar</tabstop>
-  <tabstop>t_Productos</tabstop>
+  <tabstop>D_cantidad</tabstop>
   <tabstop>b_Agregar</tabstop>
+  <tabstop>b_Limpiar</tabstop>
   <tabstop>b_Cancelar</tabstop>
+  <tabstop>t_Productos</tabstop>
  </tabstops>
  <resources/>
  <connections/>
