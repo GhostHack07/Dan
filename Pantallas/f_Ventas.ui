@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>640</height>
+    <height>750</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>1000</width>
-    <height>640</height>
+    <height>750</height>
    </size>
   </property>
   <property name="palette">
@@ -87,7 +87,7 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Registro de Ventas</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="L1">
@@ -106,7 +106,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Dan1</string>
+     <string>DanStore</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -146,8 +146,45 @@
       <x>10</x>
       <y>61</y>
       <width>831</width>
-      <height>501</height>
+      <height>611</height>
      </rect>
+    </property>
+    <property name="palette">
+     <palette>
+      <active>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>160</green>
+          <blue>245</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </active>
+      <inactive>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>240</red>
+          <green>240</green>
+          <blue>240</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </inactive>
+      <disabled>
+       <colorrole role="Highlight">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>160</green>
+          <blue>245</blue>
+         </color>
+        </brush>
+       </colorrole>
+      </disabled>
+     </palette>
     </property>
     <attribute name="horizontalHeaderVisible">
      <bool>true</bool>
@@ -159,7 +196,7 @@
      <number>134</number>
     </attribute>
     <attribute name="horizontalHeaderMinimumSectionSize">
-     <number>134</number>
+     <number>10</number>
     </attribute>
     <attribute name="verticalHeaderDefaultSectionSize">
      <number>20</number>
@@ -234,7 +271,7 @@
     </column>
     <column>
      <property name="text">
-      <string>Precio Unitario</string>
+      <string>Precio C/U</string>
      </property>
      <property name="font">
       <font>
@@ -466,7 +503,7 @@ border-radius: 14px;</string>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>570</y>
+      <y>680</y>
       <width>831</width>
       <height>51</height>
      </rect>
@@ -644,7 +681,7 @@ border-radius: 14px;</string>
       <x>850</x>
       <y>320</y>
       <width>151</width>
-      <height>301</height>
+      <height>411</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -715,7 +752,7 @@ border-radius: 14px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="L_importe">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -746,6 +783,43 @@ border-radius: 14px;</string>
        <height>30</height>
       </rect>
      </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>85</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>85</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>120</red>
+           <green>120</green>
+           <blue>120</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
      <property name="font">
       <font>
        <family>Calibri</family>
@@ -768,7 +842,7 @@ border-radius: 14px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="L_Descuento">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -783,6 +857,9 @@ border-radius: 14px;</string>
        <pointsize>14</pointsize>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 85, 0);</string>
+     </property>
      <property name="text">
       <string>Descuento</string>
      </property>
@@ -794,7 +871,7 @@ border-radius: 14px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>190</y>
+       <y>310</y>
        <width>130</width>
        <height>30</height>
       </rect>
@@ -821,11 +898,11 @@ border-radius: 14px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="L_IVA">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>170</y>
+       <y>290</y>
        <width>130</width>
        <height>21</height>
       </rect>
@@ -847,10 +924,47 @@ border-radius: 14px;</string>
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
+       <y>370</y>
        <width>130</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>170</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>170</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>120</red>
+           <green>120</green>
+           <blue>120</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
      </property>
      <property name="font">
       <font>
@@ -874,11 +988,11 @@ border-radius: 14px;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="L_Total">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>240</y>
+       <y>350</y>
        <width>130</width>
        <height>21</height>
       </rect>
@@ -891,8 +1005,199 @@ border-radius: 14px;</string>
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 170, 0);</string>
+     </property>
      <property name="text">
       <string>TOTAL</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="t_Cupon">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>130</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>85</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>255</red>
+           <green>85</green>
+           <blue>0</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>120</red>
+           <green>120</green>
+           <blue>120</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+     border-width: 1px;
+     border-style: solid;
+     border-radius: 5px;
+ }</string>
+     </property>
+     <property name="text">
+      <string>$ 0.00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="L_Cupon">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>170</y>
+       <width>130</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 85, 0);</string>
+     </property>
+     <property name="text">
+      <string>Cupón</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="t_Subtotal">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>250</y>
+       <width>130</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>85</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>0</red>
+           <green>85</green>
+           <blue>255</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>120</red>
+           <green>120</green>
+           <blue>120</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLineEdit {
+     border-width: 1px;
+     border-style: solid;
+     border-radius: 5px;
+ }</string>
+     </property>
+     <property name="text">
+      <string>$ 0.00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="L_Subtotal">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>230</y>
+       <width>130</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 85, 255);</string>
+     </property>
+     <property name="text">
+      <string>Subtotal</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -903,7 +1208,7 @@ border-radius: 14px;</string>
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>620</y>
+      <y>730</y>
       <width>50</width>
       <height>20</height>
      </rect>
@@ -915,7 +1220,7 @@ border-radius: 14px;</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 1.4.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 1.6.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1011,6 +1316,26 @@ border-radius: 14px;</string>
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>b_Buscar</tabstop>
+  <tabstop>b_Actualizar</tabstop>
+  <tabstop>b_Eliminar</tabstop>
+  <tabstop>b_Cancelar</tabstop>
+  <tabstop>b_Cobrar</tabstop>
+  <tabstop>b_Usuarios</tabstop>
+  <tabstop>b_Cupon</tabstop>
+  <tabstop>b_Inventario</tabstop>
+  <tabstop>b_Ticket</tabstop>
+  <tabstop>b_Cerrar</tabstop>
+  <tabstop>t_Ticket</tabstop>
+  <tabstop>t_Importe</tabstop>
+  <tabstop>t_Descuento</tabstop>
+  <tabstop>t_Cupon</tabstop>
+  <tabstop>t_Subtotal</tabstop>
+  <tabstop>t_IVA</tabstop>
+  <tabstop>t_Total</tabstop>
+  <tabstop>t_Ventas</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

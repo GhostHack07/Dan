@@ -222,7 +222,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Dan1</string>
+     <string>DanStore</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -340,7 +340,7 @@
       <string/>
      </property>
      <property name="maxLength">
-      <number>10</number>
+      <number>5</number>
      </property>
      <property name="clearButtonEnabled">
       <bool>true</bool>
@@ -437,7 +437,7 @@
       <string/>
      </property>
      <property name="maxLength">
-      <number>10</number>
+      <number>5</number>
      </property>
      <property name="clearButtonEnabled">
       <bool>true</bool>
@@ -1047,7 +1047,7 @@ p, li { white-space: pre-wrap; }
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 1.1.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 1.2.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
