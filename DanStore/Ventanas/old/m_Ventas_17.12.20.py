@@ -257,9 +257,6 @@ class Ventas_GUI(QtWidgets.QMainWindow):
 
     # ---------- Cargar tabla de datos temporal ********
     self.fn_Leer_Datos_BDTemporal()
-    
-    #Cargar los montos en las cajas de texto
-    self.fn_Cargar_Montos()
 
     #Generar ticket y ponerlo en la caja de texto correspondiente al iniciar
     self.fn_Generar_Ticket()
@@ -301,7 +298,7 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     ## --------------- EJEMPLO -------------- ##
     #self.ui.b_Cobrar.clicked.connect(self.fn_Leer_Datos_BDTemporal)
 
-    #self.ui.b_Ticket.clicked.connect(self.fn_Calcular_Total)
+    self.ui.b_Ticket.clicked.connect(self.fn_Calcular_Total)
 
     #self.ui.b_Ticket.clicked.connect()
     ## --------------- EJEMPLO -------------- ##
@@ -539,19 +536,37 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     #Autoajustar renglon para que se muestre todo el texto
     #self.ui.t_Ventas.resizeRowsToContents()
     
-    ##Cargar montos en cajas de texto correspondientes
-    #self.fn_Cargar_Montos()
+    #Cargar montos en cajas de texto correspondientes
+    self.fn_Cargar_Montos()
     
     ##miConexion.close()
   
+  #Función para sumar los valores del importe de la Base Temporal
+  def fn_Cargar_Montos(self):
+    Calculo_Importe = self.fn_Calcular_Montos()[0]
+    Calculo_Descuento = self.fn_Calcular_Montos()[1]
+    Cupon = self.fn_Calcular_Montos()[2]
+    Calculo_IVA = self.fn_Calcular_Montos()[3]
+    Calculo_Subtotal = self.fn_Calcular_Montos()[4]
+    Calculo_Total = self.fn_Calcular_Montos()[5]
+
+
+    #Cargar datos a los cuadros de texto correspondientes
+    self.ui.t_Importe.setText("$ " + f"{Calculo_Importe:,.2f}")
+    self.ui.t_Descuento.setText("- $ " + f"{Calculo_Descuento:,.2f}")
+    self.ui.t_Cupon.setText("- $ " + f"{Cupon:,.2f}")
+    self.ui.t_IVA.setText("$ " + f"{Calculo_IVA:,.2f}")
+    self.ui.t_Subtotal.setText("$ " + f"{Calculo_Subtotal:,.2f}")
+    self.ui.t_Total.setText("$ " + f"{Calculo_Total:,.2f}")
+
+    
+    
   def fn_Calcular_Montos(self):
+    Descuento_Cupon = self.fn_Cupon()
+
     #Abrir Base de Datos con SQLite3
     miConexion = sqlite3.connect("Productos")
     miCursor = miConexion.cursor()
-
-    miCursor.execute("SELECT Cupon FROM TEMP")
-    Descuento_Cupon = miCursor.fetchone()[0]
-
 
     miCursor.execute("SELECT Importe FROM TEMP")
     datos_importe = miCursor.fetchall()
@@ -583,38 +598,16 @@ class Ventas_GUI(QtWidgets.QMainWindow):
 
     miConexion.close()
 
+    print(Descuento_Cupon)
+    print(Montos)
+
     return Montos
 
+  def fn_Calcular_Total(self):
+    Total = self.fn_Calcular_Total()
 
-  #Función para sumar los valores del importe de la Base Temporal
-  def fn_Cargar_Montos(self):
-    Montos = self.fn_Calcular_Montos()
-    
-    Calculo_Importe = Montos[0]
-    Calculo_Descuento = Montos[1]
-    Cupon = Montos[2]
-    Calculo_IVA = Montos[3]
-    Calculo_Subtotal = Montos[4]
-    Calculo_Total = Montos[5]
-
-
-    #Cargar datos a los cuadros de texto correspondientes
-    self.ui.t_Importe.setText("$ " + f"{Calculo_Importe:,.2f}")
-    self.ui.t_Descuento.setText("- $ " + f"{Calculo_Descuento:,.2f}")
-    self.ui.t_Cupon.setText("- $ " + f"{Cupon:,.2f}")
-    self.ui.t_IVA.setText("$ " + f"{Calculo_IVA:,.2f}")
-    self.ui.t_Subtotal.setText("$ " + f"{Calculo_Subtotal:,.2f}")
-    self.ui.t_Total.setText("$ " + f"{Calculo_Total:,.2f}")
-
-    
-    
-  
-
-  #def fn_Calcular_Total(self):
-  #  Total = self.fn_Calcular_Total()
-
-  #  print(Total)
-  #  return Total
+    print(Total)
+    return Total
   
   def fn_Eliminar_Producto(self):
     if self.fn_Seleccion_Existente() == "Si":
@@ -709,16 +702,16 @@ class Ventas_GUI(QtWidgets.QMainWindow):
 
     return Consecutivo
   
-  #def fn_Cupon(self):
-  #  #Abrir Base de Datos con SQLite3
-  #  miConexion = sqlite3.connect("Productos")
-  #  miCursor = miConexion.cursor()
+  def fn_Cupon(self):
+    #Abrir Base de Datos con SQLite3
+    miConexion = sqlite3.connect("Productos")
+    miCursor = miConexion.cursor()
 
-  #  miCursor.execute("SELECT Cupon FROM TEMP")
-  #  cupon = miCursor.fetchone()[0]
-  #  miConexion.close()
+    miCursor.execute("SELECT Cupon FROM TEMP")
+    cupon = miCursor.fetchone()[0]
+    miConexion.close()
 
-  #  return cupon
+    return cupon
 
   # ----------------- Funciones para Abrir Ventanas ----------------- #
   def Abrir_Login(self):

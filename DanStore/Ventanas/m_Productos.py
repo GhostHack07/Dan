@@ -277,7 +277,7 @@ class Productos_GUI(QtWidgets.QMainWindow):
       self.ui.t_Productos.setItem(r, 0, QTableWidgetItem(str(valor[0])))
       self.ui.t_Productos.setItem(r, 1, QTableWidgetItem(str(valor[1])))
       self.ui.t_Productos.setItem(r, 2, QTableWidgetItem(str(valor[3])))
-      self.ui.t_Productos.setItem(r, 3, QTableWidgetItem(f"{valor[4]:,}")) #Separador miles
+      self.ui.t_Productos.setItem(r, 3, QTableWidgetItem(f"{valor[4]:,.2f}")) #Separador miles
       self.ui.t_Productos.setItem(r, 4, QTableWidgetItem(str(valor[5])))
       #Pasar al siguiente renglón
       r = r + 1
@@ -352,7 +352,7 @@ class Productos_GUI(QtWidgets.QMainWindow):
     miCursor = miConexion.cursor()
     
     #Agrega el producto a la Base de Datos Temporal
-    miCursor.executemany("INSERT INTO TEMP VALUES (?, ?, ?, ?, ?, ?, NULL)", [datos])
+    miCursor.executemany("INSERT INTO TEMP VALUES (?, ?, ?, ?, ?, ?, 0)", [datos])
     miConexion.commit()
     miConexion.close()
 

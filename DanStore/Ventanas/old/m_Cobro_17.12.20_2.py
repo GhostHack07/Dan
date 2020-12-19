@@ -60,131 +60,82 @@ class Cobro_GUI(QtWidgets.QMainWindow):
 
     #Cargar Total en las cajas de texto
     self.fn_Cargar_Total()
-
-    #Deshabilitar boton de autolimpieza
-    self.ui.D_Pago.setClearButtonEnabled(False)
     
   # ----------------- Funciones para uso de botones ----------------- #
-    
 
   def fn_botones_acciones(self):
     if self.ui.b_efectivo.isChecked():
-      #Permitir solo una opción
+      #Para seleccionar solo una opción
       self.ui.b_tarjeta.setChecked(False)
 
-      #Deshabilitar caja de texto de Pago
+      self.ui.L_Mascara.setText("$ 0.00")
+      self.ui.D_Pago.setText("")
+      #self.ui.D_Pago.setPlaceholderText("")
       self.ui.D_Pago.setEnabled(True)
+      self.ui.D_Pago.setClearButtonEnabled(True)
 
-      #Hacer comprobacion
+      #Función de comprobación de datos vacíos
       self.fn_Comprobacion()
 
     elif self.ui.b_tarjeta.isChecked():
-      #Permitir solo una opción
+      #Para seleccionar solo una opción
       self.ui.b_efectivo.setChecked(False)
-
-      #Valor de cero en la caja de texto
-      self.ui.D_Pago.clear()
-
-      #Deshabilitar caja de texto de Pago
+      
+      Total = self.fn_Total()
+      self.ui.L_Mascara.setText("$ " + f"{Total:,.2f}")
+      self.ui.D_Pago.setText("")
+      #self.ui.D_Pago.setPlaceholderText("")
       self.ui.D_Pago.setEnabled(False)
+      self.ui.D_Pago.setClearButtonEnabled(False)
 
-      #Hacer comprobacion
+      #Función de comprobación de datos vacíos
       self.fn_Comprobacion()
-
       
   def fn_Total(self):
     #Obtener datos del módulo m_Ventas
-    Montos = m_Ventas.Ventas_GUI.fn_Calcular_Montos(m_Ventas.Ventas_GUI)
-    
-    Total = Montos[5]
-    return Total
+    #Total = m_Ventas.Ventas_GUI.fn_Calcular_Total(m_Ventas.Ventas_GUI)
+
+    #print(Total)
+    #return Total
+    pass
 
   def fn_Cargar_Total(self):
-    #Obtener Total
     Total = self.fn_Total()
-
-    #Poner Total en la caja de texto correspondiente
+    #Poner datos en cajas de texto
     self.ui.D_Total.setText("$ " + f"{Total:,.2f}")
 
-
-  def fn_Cargar_Pago(self, Pago):
-    Pago = self.fn_Pago()
-
-    #Poner Total en la caja de texto correspondiente
-    self.ui.D_Pago.setText(Pago)
-    self.ui.L_Mascara.setText(Pago)
-
-  def fn_Cargar_Mascara(self, Pago):
-    if Pago == 0 or Pago == "":
-      self.ui.L_Mascara.setText("$ 0.00")
-    else:
-      #Poner el valor en valor en la mascara
-      self.ui.L_Mascara.setText("$ " + f"{Pago:,.2f}")
-
-  def fn_Pago(self):
-    Pago = self.ui.D_Pago.text()
-
-    if Pago == "" or Pago == 0:
-      Pago = 0
-      self.fn_Cargar_Mascara(Pago)
-    else:
-      #Convertir en numero con punto flotante
-      Pago = float(Pago)
-
-    return Pago
+  def fn_Cargar_Pago(self):
+    Total = self.fn_Total()
+    #Poner datos en cajas de texto
+    self.ui.D_Pago.setText(Total)
 
   def fn_Calcular_Cambio(self):
     Total = self.fn_Total()
-    Pago = self.fn_Pago()
-
-    Cambio = round(Total - Pago, 2)
-
-    return Cambio
-
-  def fn_Cargar_Cambio(self):
-    Cambio = self.fn_Calcular_Cambio()
-
-    if Cambio <= 0:
-      #Poner Total en la caja de texto correspondiente
-      self.ui.D_Cambio.setText("$ " + f"{Cambio:,.2f}")
-
-    elif Cambio > 0:
-      #Poner Total en la caja de texto correspondiente
-      self.ui.D_Cambio.setText("$ N/A")
-      
+    Pago = float(self.ui.D_Pago.text())
+    Cambio = round(Total - Pago,2)
+    #Poner datos en cajas de texto
+    self.ui.D_Cambio.setText("$ " + f"{Cambio:,.2f}")
+    #Poner valor en mascara
+    self.ui.L_Mascara.setText("$ " + f"{Pago:,.2f}")
+  
   def fn_Comprobacion(self):
+    #Acciones por Caso
     if self.fn_Casos() == "Efectivo":
-      Pago = self.fn_Pago()
-      
-      #Comprobar que haya texto escrito
-      if not self.ui.D_Pago.text():
-        #Deshabilitar boron b_Cobrar
+      if (not self.ui.D_Pago.text() 
+          or self.ui.D_Pago.text() == "" 
+          or self.ui.D_Pago.text() == 0):
+        
+        self.ui.L_Mascara.setText("$ 0.00")
         self.ui.b_Cobrar.setEnabled(False)
-
-      elif self.ui.D_Pago.text():
-        #Cargar el valor de Pago en la máscara
-        self.fn_Cargar_Mascara(Pago)
-        #Cargar el valor del Cambio en la caja de texto
-        self.fn_Cargar_Cambio()
-
-        if self.fn_Calcular_Cambio() > 0:
-          #Deshabilitar boron b_Cobrar
-          self.ui.b_Cobrar.setEnabled(False)
-
-        elif self.fn_Calcular_Cambio() <= 0:
-          #Habilitar boron b_Cobrar
-          self.ui.b_Cobrar.setEnabled(True)
-
+      else:
+        self.ui.b_Cobrar.setEnabled(True)
+        
+        #Poner datos en cajas de texto
+        self.fn_Calcular_Cambio()
 
     elif self.fn_Casos() == "Tarjeta":
-      #La cantidad de pago es exacta a la cantidad total
-      Pago = self.fn_Total()
-      self.fn_Cargar_Mascara(Pago)
-      #No hay cambio
-      self.ui.D_Cambio.setText("$ 0.00")
-
-      #Habilitar boron b_Cobrar
       self.ui.b_Cobrar.setEnabled(True)
+      
 
   def fn_Casos(self):
     if self.ui.b_efectivo.isChecked():
@@ -199,8 +150,7 @@ class Cobro_GUI(QtWidgets.QMainWindow):
 
 
   # --------- Funciones para Administrar acciones en SQLite --------- #
-  def fn_Cobrar(self):
-    pass
+
 
 
   # ------------- Funciones para Eventos en la ventana ------------- #

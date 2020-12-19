@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>3fb5e920-4181-4f7f-82a1-03bd96c659a7</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>DanStore.py</StartupFile>
+    <StartupFile>Ventanas\m_Cobro.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
