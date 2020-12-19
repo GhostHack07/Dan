@@ -13,7 +13,7 @@
   <property name="minimumSize">
    <size>
     <width>1000</width>
-    <height>640</height>
+    <height>750</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -514,42 +514,10 @@ border-radius: 14px;</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="b_Usuarios">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>130</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Swis721 LtCn BT</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(240, 240, 240);
-border-width: 1px;
-border-style: solid;
-border-color: gray;
-border-radius: 14px;</string>
-     </property>
-     <property name="text">
-      <string>Usuarios</string>
-     </property>
-     <property name="autoDefault">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QPushButton" name="b_Cupon">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>20</x>
        <y>10</y>
        <width>130</width>
        <height>30</height>
@@ -581,7 +549,7 @@ border-radius: 14px;</string>
     <widget class="QPushButton" name="b_Inventario">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>240</x>
        <y>10</y>
        <width>130</width>
        <height>30</height>
@@ -613,7 +581,7 @@ border-radius: 14px;</string>
     <widget class="QPushButton" name="b_Ticket">
      <property name="geometry">
       <rect>
-       <x>520</x>
+       <x>460</x>
        <y>10</y>
        <width>130</width>
        <height>30</height>
@@ -645,7 +613,7 @@ border-radius: 14px;</string>
     <widget class="QPushButton" name="b_Cerrar">
      <property name="geometry">
       <rect>
-       <x>690</x>
+       <x>680</x>
        <y>10</y>
        <width>130</width>
        <height>30</height>
@@ -1220,7 +1188,7 @@ border-radius: 14px;</string>
      </font>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 1.6.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#aaaaaa;&quot;&gt;v 1.7.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -1322,7 +1290,6 @@ border-radius: 14px;</string>
   <tabstop>b_Eliminar</tabstop>
   <tabstop>b_Cancelar</tabstop>
   <tabstop>b_Cobrar</tabstop>
-  <tabstop>b_Usuarios</tabstop>
   <tabstop>b_Cupon</tabstop>
   <tabstop>b_Inventario</tabstop>
   <tabstop>b_Ticket</tabstop>

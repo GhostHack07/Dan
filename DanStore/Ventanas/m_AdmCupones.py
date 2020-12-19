@@ -11,6 +11,9 @@ from Pantallas.f_AdmCupones import Ui_MainWindow
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 
+#Importar módulo de Ventas
+import Ventanas.m_Ventas as m_Ventas
+
 #Variable global para cambio de ventana
 window = None
 
@@ -342,9 +345,11 @@ class AdmCupones_GUI(QtWidgets.QMainWindow):
   #Cerrar ventana
   def fn_Cerrar_Ventana(self):
     self.close()
-    ##self.destroy()
-    ##ventana = m_Ventas
-    ##ventana.start()
+    self.Abrir_Ventas()
+
+  def Abrir_Ventas(self):
+    ventana = m_Ventas
+    ventana.start()
 
 #Función para iniciar ventana de Registro
 def start():
@@ -352,8 +357,8 @@ def start():
     window = AdmCupones_GUI()
     window.show()
 
-if __name__ == '__main__':
-  app = QtWidgets.QApplication([])
-  application = AdmCupones_GUI()
-  application.show()
-  sys.exit(app.exec())
+#if __name__ == '__main__':
+#  app = QtWidgets.QApplication([])
+#  application = AdmCupones_GUI()
+#  application.show()
+#  sys.exit(app.exec())

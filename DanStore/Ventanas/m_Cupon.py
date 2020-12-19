@@ -14,6 +14,7 @@ from PyQt5.QtGui import QRegExpValidator
 
 #Importar módulo de Ventas
 import Ventanas.m_AdmCupones as m_AdmCupones
+import Ventanas.m_Ventas as m_Ventas
 
 #Variable global para cambio de ventana
 window = None
@@ -31,8 +32,6 @@ class Cupon_GUI(QtWidgets.QMainWindow):
 
     #Comprobar que las celdas tengan datos
     self.ui.D_Cupon.textChanged.connect(self.fn_Comprobacion)
-
-
 
     # ------------------- Acciones para  botones ------------------- #
     #Acción de botón b_Cancelar
@@ -73,6 +72,9 @@ class Cupon_GUI(QtWidgets.QMainWindow):
       self.fn_Aplicar_Descuento(cupon)
       self.msg_info("Cupón Aplicado", f"El cupón {cupon} se aplicó exitosamente")
 
+      #Cerrar ventana
+      self.fn_Cerrar_Ventana()
+
     elif self.fn_Cupon_Existente(cupon) == "No":
       self.msg_info("Cupón Inexistente", f"El cupón {cupon} no se encuentra registrado"
                        + '\n' + "Favor de volver a intentar")
@@ -100,7 +102,6 @@ class Cupon_GUI(QtWidgets.QMainWindow):
 
   def fn_Aplicar_Descuento(self, cupon):
     Descuento = self.fn_Descuento(cupon)
-    print (Descuento)
     #Abrir Base de Datos con SQLite3
     miConexion = sqlite3.connect("Productos")
     miCursor = miConexion.cursor()
@@ -159,7 +160,11 @@ class Cupon_GUI(QtWidgets.QMainWindow):
   #Cerrar ventana
   def fn_Cerrar_Ventana(self):
     self.destroy()
+    self.Abrir_Ventas()
 
+  def Abrir_Ventas(self):
+    ventana = m_Ventas
+    ventana.start()
 
 #Función para iniciar ventana de Cobro
 def start():
@@ -168,9 +173,9 @@ def start():
     window.show()
 
 
-#Mostrar ventana Login
-if __name__ == '__main__':
-  app = QtWidgets.QApplication([])
-  application = Cupon_GUI()
-  application.show()
-  sys.exit(app.exec())
+##Mostrar ventana Login
+#if __name__ == '__main__':
+#  app = QtWidgets.QApplication([])
+#  application = Cupon_GUI()
+#  application.show()
+#  sys.exit(app.exec())

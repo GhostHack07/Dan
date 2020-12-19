@@ -407,8 +407,8 @@ def start():
     window = Inventario_GUI()
     window.show()
 
-if __name__ == '__main__':
-  app = QtWidgets.QApplication([])
-  application = Inventario_GUI()
-  application.show()
-  sys.exit(app.exec())
+#if __name__ == '__main__':
+#  app = QtWidgets.QApplication([])
+#  application = Inventario_GUI()
+#  application.show()
+#  sys.exit(app.exec())

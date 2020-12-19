@@ -23,6 +23,7 @@ import Ventanas.m_Constantes as C
 #Variable global para cambio de ventana
 window = None
 
+
 class Ventas_GUI(QtWidgets.QMainWindow):
   #Función para iniciar ventana de Login
   def __init__(self):
@@ -136,25 +137,6 @@ class Ventas_GUI(QtWidgets.QMainWindow):
         }
     ''')
 
-    self.ui.b_Usuarios.setStyleSheet('''
-      QPushButton::active {
-        background-color: rgb(240, 240, 240); border-width: 1px;
-        border-style: solid; border-color: grey; border-radius: 14px;
-        }
-      QPushButton::!active {
-        background-color: rgb(255, 255, 255); border-width: 1px;
-        border-style: solid; border-color: grey; border-radius: 14px;
-        }
-      QPushButton::hover {
-        background-color: rgb(220, 220, 220); border-width: 1px;
-        border-style: solid; border-color: grey; border-radius: 14px;
-        }
-      QPushButton::pressed {
-        background-color: rgb(200, 200, 200); border-width: 1px;
-        border-style: solid; border-color: grey; border-radius: 14px;
-        }
-    ''')
-
     self.ui.b_Cupon.setStyleSheet('''
       QPushButton::active {
         background-color: rgb(240, 240, 240); border-width: 1px;
@@ -261,14 +243,15 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     #Cargar los montos en las cajas de texto
     self.fn_Cargar_Montos()
 
+    
     #Generar ticket y ponerlo en la caja de texto correspondiente al iniciar
-    self.fn_Generar_Ticket()
+    self.fn_Cargar_Ticket()
+
 
     #Establecer estado de los botones al iniciar
-    self.ui.b_Usuarios.setEnabled(False)
     self.ui.b_Cupon.setEnabled(True)
     self.ui.b_Inventario.setEnabled(True)
-    self.ui.b_Ticket.setEnabled(True)
+    self.ui.b_Ticket.setEnabled(False)
     
     #Deshabilitar las cajas de texto a solo lectura
     self.ui.t_Ticket.setReadOnly(True)
@@ -301,7 +284,7 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     ## --------------- EJEMPLO -------------- ##
     #self.ui.b_Cobrar.clicked.connect(self.fn_Leer_Datos_BDTemporal)
 
-    #self.ui.b_Ticket.clicked.connect(self.fn_Calcular_Total)
+    #self.ui.b_Ticket.clicked.connect(self.fn_Generar_Ticket)
 
     #self.ui.b_Ticket.clicked.connect()
     ## --------------- EJEMPLO -------------- ##
@@ -345,14 +328,26 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     #Crea un ciclo infino al volver a cargar los datos a la tabla
     #self.ui.t_Ventas.cellChanged.connect(self.fn_Cantidad_Cambio)
     # --- BUG --- #
-  def fn_Generar_Ticket(self):
-    #Generar texto de ticket con el consecutivo de la base de datos
-    Consecutivo = self.fn_Consecutivo_Ticket()
-    Ticket = "Ticket # " + str(Consecutivo).zfill(4)
 
-    return Ticket
+
+  #def fn_Generar_Ticket(self):
+  #  #Generar texto de ticket con el consecutivo de la base de datos
+  #  Consecutivo = self.fn_Consecutivo_Ticket()
+  #  Ticket = "Ticket # " + str(Consecutivo).zfill(4)
+
+    
+  #  #Cargar el número de ticket en la caja de texto correspondiente
+  #  self.ui.t_Ticket.setText(Ticket)
+
+  #  return Ticket
+  
+  
+  def fn_Cargar_Ticket(self):
+    Ticket = self.fn_Ticket()
+
     #Cargar el número de ticket en la caja de texto correspondiente
-    self.ui.t_Ticket.setText(Ticket)
+    self.ui.t_Ticket.setText("Ticket " + Ticket)
+
 
   def fn_Cantidad_Cambio(self):
     seleccion = self.ui.t_Ventas.selectedItems()
@@ -366,8 +361,8 @@ class Ventas_GUI(QtWidgets.QMainWindow):
                                                             cantidad, precio, descuento)
     #importe = self.fn_Calcular_Importe(cantidad, precio, descuento)
     
-    print(importe)
-    print(r)
+    #print(importe)
+    #print(r)
 
     ##Actualizar la cantidad en la Base de Datos temporal
     #self.fn_Actualizar_Cantidad(sku, cantidad, importe)
@@ -549,42 +544,47 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     miConexion = sqlite3.connect("Productos")
     miCursor = miConexion.cursor()
 
-    miCursor.execute("SELECT Cupon FROM TEMP")
-    Descuento_Cupon = miCursor.fetchone()[0]
+    miCursor.execute("SELECT SKU FROM TEMP")
+    if miCursor.fetchall():
+
+      miCursor.execute("SELECT Cupon FROM TEMP")
+      Descuento_Cupon = miCursor.fetchone()[0]
 
 
-    miCursor.execute("SELECT Importe FROM TEMP")
-    datos_importe = miCursor.fetchall()
+      miCursor.execute("SELECT Importe FROM TEMP")
+      datos_importe = miCursor.fetchall()
 
-    importes = []
-    for valor in datos_importe:
-      importes.append(valor[0])
+      importes = []
+      for valor in datos_importe:
+        importes.append(valor[0])
 
-    miCursor.execute("SELECT Cantidad, Precio FROM TEMP")
-    datos_precio = miCursor.fetchall()
+      miCursor.execute("SELECT Cantidad, Precio FROM TEMP")
+      datos_precio = miCursor.fetchall()
 
-    precios = []
-    for valor in datos_precio:
-      precios.append(valor[0] * valor[1])
+      precios = []
+      for valor in datos_precio:
+        precios.append(valor[0] * valor[1])
 
-    #Descuento_Cupon = self.fn_Cupon()
+      #Descuento_Cupon = self.fn_Cupon()
 
-    #Cálculo de montos
-    Total = round(sum(importes), 2)
-    Cupon = round((Descuento_Cupon/100) * Total, 2)
-    Calculo_Descuento = round(sum(precios)- Total, 2)
-    Calculo_Importe = round(sum(precios), 2)
-    Calculo_Subtotal = round(Calculo_Importe - Calculo_Descuento - Cupon, 2)
-    Calculo_IVA = round(Calculo_Subtotal - (Calculo_Subtotal / (1 + C.IVA)), 2)
-    Calculo_Total = round(Calculo_Subtotal + Calculo_IVA,2)
+      #Cálculo de montos
+      Total = round(sum(importes), 2)
+      Cupon = round((Descuento_Cupon/100) * Total, 2)
+      Calculo_Descuento = round(sum(precios)- Total, 2)
+      Calculo_Importe = round(sum(precios), 2)
+      Calculo_Subtotal = round(Calculo_Importe - Calculo_Descuento - Cupon, 2)
+      Calculo_IVA = round(Calculo_Subtotal - (Calculo_Subtotal / (1 + C.IVA)), 2)
+      Calculo_Total = round(Calculo_Subtotal + Calculo_IVA,2)
 
-    Montos = [Calculo_Importe, Calculo_Descuento, Cupon, Calculo_IVA, 
-              Calculo_Subtotal, Calculo_Total]
+      Montos = [Calculo_Importe, Calculo_Descuento, Cupon, Calculo_IVA, 
+                Calculo_Subtotal, Calculo_Total]
 
-    miConexion.close()
+      miConexion.close()
+
+    else:
+      Montos = [0, 0, 0, 0, 0, 0]
 
     return Montos
-
 
   #Función para sumar los valores del importe de la Base Temporal
   def fn_Cargar_Montos(self):
@@ -605,10 +605,6 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     self.ui.t_IVA.setText("$ " + f"{Calculo_IVA:,.2f}")
     self.ui.t_Subtotal.setText("$ " + f"{Calculo_Subtotal:,.2f}")
     self.ui.t_Total.setText("$ " + f"{Calculo_Total:,.2f}")
-
-    
-    
-  
 
   #def fn_Calcular_Total(self):
   #  Total = self.fn_Calcular_Total()
@@ -641,6 +637,8 @@ class Ventas_GUI(QtWidgets.QMainWindow):
         self.fn_Limpiar_Tabla()
         #Actualizar tabla
         self.fn_Leer_Datos_BDTemporal()
+        #Actualizar montos
+        self.fn_Cargar_Montos()
 
     elif self.fn_Seleccion_Existente() == "No":
       self.msg_info("Sin selección", "No has seleccionado ningún producto."
@@ -681,34 +679,98 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     self.ui.t_Ventas.clearContents()
     self.ui.t_Ventas.setRowCount(1)
 
-  def fn_Consecutivo_Ticket(self):
+  def fn_Generar_Ticket(self):
     #Abrir Base de Datos con SQLite3
     miConexion = sqlite3.connect("Ventas")
     miCursor = miConexion.cursor()
     #Crear Base de Datos si no existe
     miCursor.execute('''
-      CREATE TABLE IF NOT EXISTS Ticket (
+      CREATE TABLE IF NOT EXISTS Ticket_TEMP (
       ID INTEGER PRIMARY KEY AUTOINCREMENT,
-      TK VARCHAR(5),
-      SKU VARCHAR(5),
-      Producto VARCHAR(1000),
-      Cantidad INTEGER(4),
-      Precio REAL(4),
-      Descuento REAL(4),
-      Importe REAL(6),
-      Estaus VARCHAR(9))
+      TK VARCHAR(5))
       ''')
 
     #Generar ID en la tabla Ticket
-    miCursor.execute("INSERT INTO Ticket (ID) VALUES (NULL)")
+    miCursor.execute("INSERT INTO Ticket_TEMP (ID) VALUES (NULL)")
     miConexion.commit()
 
-    miCursor.execute("SELECT * FROM Ticket ORDER BY ID DESC LIMIT 1")
+    #Extraer el ultimo número generado
+    miCursor.execute("SELECT * FROM Ticket_TEMP ORDER BY ID DESC LIMIT 1")
     Consecutivo = miCursor.fetchone()[0]
+
+    #Crear ticket
+    Ticket = "#" + str(Consecutivo).zfill(4)
+
+    miCursor.execute("UPDATE Ticket_TEMP SET TK = ? WHERE ID = ?", [Ticket, Consecutivo])
+    miConexion.commit()
     miConexion.close()
 
-    return Consecutivo
+   
+  def fn_Ticket(self):
+    #Abrir Base de Datos con SQLite3
+    miConexion = sqlite3.connect("Ventas")
+    miCursor = miConexion.cursor()
+
+    #Crear Base de Datos si no existe
+    miCursor.execute('''
+      CREATE TABLE IF NOT EXISTS Ticket_TEMP (
+      ID INTEGER PRIMARY KEY AUTOINCREMENT,
+      TK VARCHAR(5))
+      ''')
+
+    miCursor.execute("SELECT ID FROM Ticket_TEMP")
+    if miCursor.fetchall():
+      #Extraer el ultimo número generado
+      miCursor.execute("SELECT * FROM Ticket_TEMP ORDER BY ID DESC LIMIT 1")
+      ultimo = miCursor.fetchone()[0]
+
+      Ticket = "#" + str(ultimo + 1).zfill(4)
+      miConexion.close()
+
+    else:
+      #Generar ID en la tabla Ticket
+      miCursor.execute("INSERT INTO Ticket_TEMP (ID) VALUES (NULL)")
+      miConexion.commit()
+
+      #Extraer el ultimo número generado
+      miCursor.execute("SELECT * FROM Ticket_TEMP ORDER BY ID DESC LIMIT 1")
+      ultimo = miCursor.fetchone()[0]
+
+      Ticket = "#" + str(1).zfill(4)
+      miConexion.close()
+
+    return Ticket
+
+
+
+
+  #def fn_Cargar_Ticket(self):
+  #  Ticket = self.fn_Generar_Ticket()
+  #  Consecutivo = self.fn_Consecutivo_Ticket()
+
+  #  #Abrir Base de Datos con SQLite3
+  #  miConexion = sqlite3.connect("Ventas")
+  #  miCursor = miConexion.cursor()
+
+  #  miCursor.execute("UPDATE Ticket_TEMP SET TK = ? WHERE ID = ?", [Ticket, Consecutivo])
+
+
   
+  def fn_Compra_Productos(self):
+    #Abrir Base de Datos con SQLite3
+    miConexion = sqlite3.connect("Productos")
+    miCursor = miConexion.cursor()
+
+    miCursor.execute("SELECT * FROM TEMP")
+    Productos = miCursor.fetchall()
+    if Productos:
+      return Productos
+    
+ 
+
+
+
+
   #def fn_Cupon(self):
   #  #Abrir Base de Datos con SQLite3
   #  miConexion = sqlite3.connect("Productos")
@@ -741,11 +803,13 @@ class Ventas_GUI(QtWidgets.QMainWindow):
     ventana.start()
 
   def Abrir_Cobro(self):
+    self.fn_Generar_Ticket()
     self.close()
     ventana = m_Cobro
     ventana.start()
 
   def Abrir_Cupon(self):
+    self.close()
     ventana = m_Cupon
     ventana.start()
   # -------------------- Funciones para Mensajes -------------------- #
@@ -787,11 +851,11 @@ class Ventas_GUI(QtWidgets.QMainWindow):
 
   #Cerrar ventana
   def fn_Cerrar_Ventana(self):
-    #self.destroy()
+    self.destroy()
     #self.Abrir_Login()
     
     # == TEMPORAL == #
-    self.close()
+    #self.close()
 
 #Clase para devolver un valor nulo en caso de que la columna sea editable  
 class ReadOnlyDelegate(QtWidgets.QStyledItemDelegate):
@@ -804,11 +868,11 @@ def start():
     window = Ventas_GUI()
     window.show()
 
-#Función para iniciar ventana de Registro 
-if __name__ == '__main__':
-  app = QtWidgets.QApplication([])
-  application = Ventas_GUI()
-  application.show()
-  sys.exit(app.exec())
+##Función para iniciar ventana de Registro 
+#if __name__ == '__main__':
+#  app = QtWidgets.QApplication([])
+#  application = Ventas_GUI()
+#  application.show()
+#  sys.exit(app.exec())
 
 

@@ -385,9 +385,9 @@ def start():
     window = Productos_GUI()
     window.show()
 
-#Función para iniciar ventana de Registro 
-if __name__ == '__main__':
-  app = QtWidgets.QApplication([])
-  application = Productos_GUI()
-  application.show()
-  sys.exit(app.exec())
+##Función para iniciar ventana de Registro 
+#if __name__ == '__main__':
+#  app = QtWidgets.QApplication([])
+#  application = Productos_GUI()
+#  application.show()
+#  sys.exit(app.exec())

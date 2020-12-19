@@ -1,5 +1,7 @@
 #Importar librerias necesarias
 import sys
+import sqlite3
+
 
 #Importar ventana de Login creada en QT Designes y exportada a python
 from PyQt5 import QtWidgets
@@ -11,8 +13,12 @@ from Pantallas.f_Cobro import Ui_MainWindow
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 
+#Libreria para poder usar dechas
+from datetime import datetime
+
 #Importar módulo de Ventas
 import Ventanas.m_Ventas as m_Ventas
+
 
 #Variable global para cambio de ventana
 window = None
@@ -47,7 +53,7 @@ class Cobro_GUI(QtWidgets.QMainWindow):
     self.ui.D_Pago.setValidator(validar_flotante)
 
     #Acción de botón b_Cancelar
-    #self.ui.b_Cobrar.clicked.connect()
+    self.ui.b_Cobrar.clicked.connect(self.fn_Cobrar)
     self.ui.b_Cancelar.clicked.connect(self.fn_Cancelar)
 
     #Acción de botones opcionales Efectivo/ Tarjeta
@@ -200,8 +206,124 @@ class Cobro_GUI(QtWidgets.QMainWindow):
 
   # --------- Funciones para Administrar acciones en SQLite --------- #
   def fn_Cobrar(self):
-    pass
+    #Abrir Base de Datos con SQLite3
+    miConexion = sqlite3.connect("Ventas")
+    miCursor = miConexion.cursor()
+    #Crear Base de Datos si no existe
+    miCursor.execute('''
+      CREATE TABLE IF NOT EXISTS Compras (
+      TK VARCHAR(5),
+      SKU VARCHAR(5),
+      Producto VARCHAR(1000),
+      Cantidad INTEGER(4),
+      Precio REAL(4),
+      Descuento REAL(4),
+      Importe REAL(6),
+      Cupon REAL(4),
+      Fecha VARCHAR(30))
+      ''')
+    #Extraer datos de la ventana de Ventas
+    Ticket = m_Ventas.Ventas_GUI.fn_Ticket(m_Ventas.Ventas_GUI)
+    Productos = m_Ventas.Ventas_GUI.fn_Compra_Productos(m_Ventas.Ventas_GUI)
+    Fecha = str(datetime.today())
 
+
+    #Insertar datos adicionales en la lista de productos
+    item = []
+    Datos = []
+    for item in Productos:
+      Datos.append(self.fn_Insertar_Datos(item, 0, Ticket, 9, Fecha))
+
+    #Verificar que haya productos agregados
+    if Datos:
+      #Agregar productos a la Base de Datos de ventas
+      miCursor.executemany("INSERT INTO Compras VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                           Datos)
+      miConexion.commit()
+      miConexion.close()
+
+      self.fn_Descontar_Productos(Productos)
+
+      self.msg_info("Compra exitosa", "La compra se realizó exitosamente")
+
+      #Borrar base de datos temporal
+      self.fn_Borrar_BDTemporal()
+
+      self.fn_Cerrar_Ventana()
+
+
+    else:
+      self.msg_info("Sin productos", "No has agregado ningún producto."
+                    + '\n' + "Favor de agregar almenos un producto.")
+
+  def fn_Insertar_Datos(self, tupla, posicion_Ticket, Ticket, posicion_Fecha, Fecha): 
+    tupla = tupla[:posicion_Ticket]+(Ticket,)+tupla[posicion_Ticket:]
+    tupla = tupla[:posicion_Fecha]+(Fecha,)+tupla[posicion_Fecha:]
+    
+    return tupla
+
+
+
+  def fn_Descontar_Productos(self, Productos):
+    lista = []
+    for item in Productos:
+      lista.append(self.fn_Lista_Descontar(item))
+
+    #Abrir Base de Datos con SQLite3
+    miConexion = sqlite3.connect("Productos")
+    miCursor = miConexion.cursor()
+
+
+    miCursor.executemany("UPDATE Inventario SET Inventario = ? WHERE SKU = ?", lista)
+
+    miConexion.commit()
+    
+    miConexion.close()
+
+
+  def fn_Lista_Descontar(self, item):
+    datos = []
+
+    sku = item[0]
+
+    miConexion = sqlite3.connect("Productos")
+    miCursor = miConexion.cursor()
+
+    miCursor.execute("SELECT Inventario FROM Inventario WHERE SKU = ?", [sku])
+    inventario = miCursor.fetchone()[0]
+    miConexion.close()
+
+    
+    datos.append(inventario - item[2])
+    datos.append(item[0])
+
+    datos = tuple(datos)
+
+    return datos
+
+  def fn_Borrar_BDTemporal(self):
+    miConexion = sqlite3.connect("Productos")
+    miCursor = miConexion.cursor()
+
+    miCursor.execute("DELETE FROM TEMP")
+    miConexion.commit()
+    miConexion.close()
+
+  # -------------------- Funciones para Mensajes -------------------- #
+  #Función para mensajes de información
+  def msg_info(self, titulo, mensaje):
+      msgbox = QMessageBox()
+      msgbox.setIcon(QMessageBox.Information)
+      msgbox.setWindowTitle(titulo)
+      msgbox.setText(mensaje)
+      msgbox.exec_()
+    
+
+  # ----------------- Funciones para Abrir Ventanas ----------------- #
+  def Abrir_Ventas(self):
+    self.destroy()
+    ventana = m_Ventas
+    ventana.start()
 
   # ------------- Funciones para Eventos en la ventana ------------- #
   #Evento para cuando la ventana se cierra
@@ -211,6 +333,7 @@ class Cobro_GUI(QtWidgets.QMainWindow):
   #Cerrar ventana
   def fn_Cerrar_Ventana(self):
     self.destroy()
+    self.Abrir_Ventas()
 
 
 #Función para iniciar ventana de Cobro
@@ -220,9 +343,9 @@ def start():
     window.show()
 
 
-#Mostrar ventana Login
-if __name__ == '__main__':
-  app = QtWidgets.QApplication([])
-  application = Cobro_GUI()
-  application.show()
-  sys.exit(app.exec())
+##Mostrar ventana Login
+#if __name__ == '__main__':
+#  app = QtWidgets.QApplication([])
+#  application = Cobro_GUI()
+#  application.show()
+#  sys.exit(app.exec())

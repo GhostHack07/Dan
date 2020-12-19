@@ -822,7 +822,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="text">
-      <string>Cancelar</string>
+      <string>Finalizar</string>
      </property>
      <property name="autoDefault">
       <bool>true</bool>

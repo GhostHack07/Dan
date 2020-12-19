@@ -361,5 +361,5 @@ class Ui_MainWindow(object):
         self.L4.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; color:#aaaaaa;\">v 1.6.0</span></p></body></html>"))
         self.b_Agregar.setText(_translate("MainWindow", "Agregar"))
         self.b_Limpiar.setText(_translate("MainWindow", "Limpiar"))
-        self.b_Cancelar.setText(_translate("MainWindow", "Cancelar"))
+        self.b_Cancelar.setText(_translate("MainWindow", "Finalizar"))
         self.L3.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" color:#aaaaaa;\">Cantidad</span></p></body></html>"))
